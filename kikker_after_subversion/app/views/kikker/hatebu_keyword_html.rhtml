@@ -1,0 +1,44 @@
+<%=render :partial => 'bunner'%>
+<%=render :partial => 'shinobi'%>
+
+<%=get_notice()%>
+<%= link_to image_tag('http://ryogrid.myhome.cx/distribute/rss_icon.gif'),:action => "hatebu_keyword_rss",:keyword => @keyword%>
+<DIV id=container>
+ <DIV id=body>
+  <DIV class=option style="CLEAR: both">
+
+   <H3><A><%= @keyword %>に関するページ</A>&nbsp;<%=link_to "Newsはコチラ",:action => "news_keyword_html",:keyword => @keyword%></H3>
+   <DIV class=optionsub>
+    <%=render :partial => 'adsence_lect'%>
+    <%@search_result["titles"].each_index{|index|%>
+
+     <DIV class=entry>
+       <SPAN class=entry-body>
+         <%if @share_user != nil%>       
+             <%=link_to @search_result["titles"][index],{:action => "learn",:category => "hatebu",:url => @search_result["urls"][index]},{:target => "_blank",:class => "bookmark"}%>
+         <%else%>
+             <%=link_to @search_result["titles"][index],@search_result["urls"][index],{:target => "_blank",:class => "bookmark"}%>
+         <%end%>
+       </SPAN>&nbsp;
+       <SPAN class=entry-footer>
+         <strong><a href="http://b.hatena.ne.jp/entry/<%=@search_result["urls"][index]%>"><%=@search_result["view_counts"][index]%>users</a></STRONG>
+       </SPAN>
+       <SPAN class=entry-footer>&nbsp;
+         <%=@search_result["crawled_dates"][index].split("-")[0]%>年<%=@search_result["crawled_dates"][index].split("-")[1]%>月<%=@search_result["crawled_dates"][index].split("-")[2]%>日
+       </SPAN><br>
+
+       <SPAN class=entry-footer>キーワード:&nbsp;
+       <%@search_result["tags"][index].each_index{ |tag_index| %>
+           <%= link_to @search_result["tags"][index][tag_index][0],{:action => "hatebu_keyword_html",:keyword => @search_result["tags"][index][tag_index][0]},{:class => "keyword"} %>&nbsp;
+           <% break if tag_index > KikkerHelper::ARRANGE_KEYWORD_COUNT%>
+       <%}%>
+       </SPAN>
+     </DIV>
+    <%}%>
+    <%=render :partial => 'amazon'%>
+   </div>
+  </div>
+ </div>
+</div>
+
+<%=render :partial => 'analytics'%>

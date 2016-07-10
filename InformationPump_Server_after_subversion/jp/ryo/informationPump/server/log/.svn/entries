@@ -1,0 +1,54 @@
+8
+
+dir
+510
+http://ryogrid.myhome.cx/svn/repos/trunk/InformationPump_Server/jp/ryo/informationPump/server/log
+http://ryogrid.myhome.cx/svn/repos
+
+
+
+2006-08-02T04:24:38.000000Z
+312
+ryo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+78a450e0-2e2b-0410-85a1-c6a81a88bdec
+
+ServerLogger.java
+file
+
+
+
+
+2007-03-08T23:27:16.272516Z
+603e3053cfe1ed87be9c68307f3ed80d
+2006-03-26T15:23:07.000000Z
+90
+ryo
+has-props
+
+LoggerUtil.java
+file
+
+
+
+
+2007-03-08T23:27:16.302560Z
+56ad944071f690ab2f7b69a667dd3640
+2006-08-02T04:24:38.000000Z
+312
+ryo
+has-props
+

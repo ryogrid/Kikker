@@ -1,0 +1,1 @@
+java -cp . jp.ryo.informationPump.server.ServerStarter

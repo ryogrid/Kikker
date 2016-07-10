@@ -1,0 +1,8 @@
+/home/ryo/work/kikker_package/.metadata/.plugins/org.eclipse.jdt.core/1206012562.index
+/home/ryo/work/kikker_package/.metadata/.plugins/org.eclipse.jdt.core/929460686.index
+/home/ryo/work/kikker_package/.metadata/.plugins/org.eclipse.jdt.core/2942916381.index
+/home/ryo/work/kikker_package/.metadata/.plugins/org.eclipse.jdt.core/3196867196.index
+/home/ryo/work/kikker_package/.metadata/.plugins/org.eclipse.jdt.core/3617524945.index
+/home/ryo/work/kikker_package/.metadata/.plugins/org.eclipse.jdt.core/2215408937.index
+/home/ryo/work/kikker_package/.metadata/.plugins/org.eclipse.jdt.core/4099670866.index
+/home/ryo/work/kikker_package/.metadata/.plugins/org.eclipse.jdt.core/2756735668.index

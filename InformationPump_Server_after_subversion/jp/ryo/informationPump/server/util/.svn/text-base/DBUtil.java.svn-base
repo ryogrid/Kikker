@@ -1,0 +1,210 @@
+package jp.ryo.informationPump.server.util;
+
+import java.util.*;
+
+import jp.ryo.informationPump.server.data.*;
+import jp.ryo.informationPump.server.db.tables.*;
+
+public class DBUtil {
+    public static final int KIKKER_DB_TYPE = 1;
+    public static final int HATEBU_TYPE = 2;
+    public static final int CEEK_NEWS_TYPE = 3;
+    public static final int YOUTUBE_TYPE = 4;
+    
+    public static final int KEYWORD_LENGTH_LIMIT = 10;
+    private static final int TITLE_LENGTH_LIMIT = 50;
+    public static StoreBoxForDocumentEntry[] convertToStoreDocumentEntryArray(Webdocumententry entries[]){
+        int len = entries.length;
+        StoreBoxForDocumentEntry results[] = new StoreBoxForDocumentEntry[len];
+        for(int i=0;i<len;i++){
+            results[i] = convertToStoreDocumentEntry(entries[i]);
+        }
+        return results;
+    }
+    
+    public static StoreBoxForDocumentEntry convertToStoreDocumentEntry(Webdocumententry entry){
+        WebdocumentKeywordTable keys[] = entry.getKey_tables();
+        HashMap keys_map = new HashMap();
+        ArrayList sorted_keys = new ArrayList();
+        for(int j=0;j<keys.length;j++){
+            keys_map.put(keys[j].getKeyword().replaceAll("\\\\'","'").replaceAll("\\\\\\\\","\\\\").intern(),keys[j].getTfidfValue());
+            sorted_keys.add(keys[j].getKeyword());
+        }
+        
+        WebdocumentTagTable tags[] = entry.getTag_tables();
+        HashMap tags_map = new HashMap(); 
+        for(int j=0;j<tags.length;j++){
+            keys_map.put(tags[j].getTag().replaceAll("\\\\'","'").replaceAll("\\\\\\\\","\\\\").intern(),tags[j].getTfidfValue());
+        }
+        
+        DocumentEntry new_entry = new DocumentEntry(entry.getUrl(),entry.getCrawleddate(),keys_map,tags_map,entry.getTitle().replaceAll("\\\\'","'").replaceAll("\\\\\\\\","\\\\"),entry.getViewUserCount().intValue(),entry.getCategory(),entry.getDocType().intValue());
+        if(entry.getIsanalyzed().intValue()==1){
+            new_entry.setIsPreciseAnalyzed(true);    
+        }else{
+            new_entry.setIsPreciseAnalyzed(false);
+        }
+        
+        new_entry.setSortedKeywords(sorted_keys);
+        new_entry.setDescription(entry.getDescription());
+        StoreBoxForDocumentEntry tmp_entry = new StoreBoxForDocumentEntry(new_entry,entry.getCrawleddate());
+        
+        return tmp_entry;
+    }
+    
+    public static UserProfile[] convertToUserProfileArray(Userentry entries[]){
+        int len = entries.length;
+        UserProfile results[] = new UserProfile[len];
+        for(int i=0;i<len;i++){
+            results[i] = convertToUserProfile(entries[i]);
+        }
+        return results;
+    }
+    
+    public static UserProfile convertToUserProfile(Userentry entry){
+        UserKeywordTable keys[] = entry.getKey_table();
+        HashMap keys_map = new HashMap(); 
+        for(int j=0;j<keys.length;j++){
+            keys_map.put(keys[j].getKeyword().intern(),keys[j].getTfidfValue());
+        }
+        
+        UserProfile new_profile = new UserProfile("",entry.getId(),entry.getMailAddress(),entry.getAge().intValue(),entry.getName(),entry.getPassword());
+        new_profile.setLastCached(entry.getCacheDate());
+        new_profile.setPastReadPages(new Vector(Arrays.asList(entry.getPastReadPages())));
+        new_profile.setRegistDate(entry.getRegistDate());
+        new_profile.setTaste_vector(keys_map);
+        
+        return new_profile;
+    }
+    
+    public static Webdocumententry[] convertToWebdocumententryArray(StoreBoxForDocumentEntry entries[]){
+        int len = entries.length;
+        Webdocumententry results[] = new Webdocumententry[len];
+        
+        for(int i=0;i<len;i++){
+            results[i] = convertToWebdocumententry(entries[i]);
+        }
+        return results;
+    }
+    
+    public static Webdocumententry convertToWebdocumententry(StoreBoxForDocumentEntry entry){
+        HashMap key_map = entry.data.getKeywords();
+        Set key_set = key_map.entrySet();
+        Iterator key_itr = key_set.iterator();
+        WebdocumentKeywordTable key_table_arr[] = new WebdocumentKeywordTable[key_set.size()];
+        int key_counter = 0;
+        while(key_itr.hasNext()){
+            Map.Entry key_entry =  (Map.Entry)key_itr.next();
+            WebdocumentKeywordTable tmp_table = new WebdocumentKeywordTable();
+            tmp_table.setDocAddress(entry.data.getAddress());
+            
+            String tmp_word = ((String)key_entry.getKey()).replaceAll("\\\\","\\\\\\\\").replaceAll("'","\\\\'");
+            if((tmp_word!=null)&&(tmp_word.length() > KEYWORD_LENGTH_LIMIT)){
+                tmp_word = tmp_word.substring(0,KEYWORD_LENGTH_LIMIT -1);
+            }
+            tmp_table.setKeyword(tmp_word);
+            tmp_table.setTfidfValue((Double)key_entry.getValue());
+            
+            key_table_arr[key_counter++] = tmp_table;
+        }
+        
+        HashMap tag_map = entry.data.getTags();
+        WebdocumentTagTable tag_table_arr[] = new WebdocumentTagTable[0];
+        if(tag_map!=null){
+            Set tag_set = tag_map.entrySet();
+            Iterator tag_itr = tag_set.iterator();
+            tag_table_arr = new WebdocumentTagTable[tag_set.size()];
+            int tag_counter = 0;
+            while(tag_itr.hasNext()){
+                Map.Entry tag_entry =  (Map.Entry)tag_itr.next();
+                WebdocumentTagTable tmp_table = new WebdocumentTagTable();
+                tmp_table.setDocAddress(entry.data.getAddress());
+                String tmp_tag = ((String)tag_entry.getKey()).replaceAll("\\\\","\\\\\\\\").replaceAll("'","\\\\'");
+                if((tmp_tag!=null)&&(tmp_tag.length() > KEYWORD_LENGTH_LIMIT)){
+                    tmp_tag = tmp_tag.substring(0,KEYWORD_LENGTH_LIMIT -1);
+                }
+                tmp_table.setTag(tmp_tag);
+                tmp_table.setTfidfValue((Double)tag_entry.getValue());
+                
+                tag_table_arr[tag_counter++] = tmp_table;
+            }
+        }
+        
+        Webdocumententry result_entry = new Webdocumententry();
+        result_entry.setBookmarkCount(new Integer(entry.data.getView_users()));
+        result_entry.setViewUserCount(new Integer(entry.data.getView_users()));
+        result_entry.setCategory(entry.data.getCategory());
+        result_entry.setCrawleddate(new java.sql.Date(entry.data.getClawledDate().getTime()));
+        result_entry.setDescription(entry.data.getDescription());
+        result_entry.setDocType(new Integer(HATEBU_TYPE));
+        String title = entry.data.getTitle();
+        if(title.length() > TITLE_LENGTH_LIMIT){
+            title = title.substring(0,TITLE_LENGTH_LIMIT);
+        }
+        result_entry.setTitle(title.replaceAll("\\\\","\\\\\\\\").replaceAll("'","\\\\'"));
+        result_entry.setKey_tables(key_table_arr);
+        result_entry.setTag_tables(tag_table_arr);
+        result_entry.setUrl(entry.data.getAddress());
+        result_entry.setDocType(new Integer(entry.data.getDoc_type()));
+        if(entry.data.isPreciseAnalyzed()==true){
+            result_entry.setIsanalyzed(new Integer(1));    
+        }else{
+            result_entry.setIsanalyzed(new Integer(0));
+        }
+        
+        return result_entry;
+    }
+    
+    public static Userentry[] convertToUserentryArray(UserProfile[] entries){
+        int len = entries.length;
+        Userentry results[] = new Userentry[len];
+        for(int i=0;i<len;i++){
+            results[i] = convertToUserentry(entries[i]);
+        }
+        return results;
+    }
+    
+    public static Userentry convertToUserentry(UserProfile entry){
+        HashMap key_map = entry.getTasteVector();
+        Set key_set = key_map.entrySet();
+        UserKeywordTable key_table[] = new UserKeywordTable[key_set.size()];
+        Iterator key_itr = key_set.iterator();
+        int key_counter = 0;
+        while(key_itr.hasNext()){
+            Map.Entry key_entry = (Map.Entry)key_itr.next();
+            String keyword = (String)key_entry.getKey();
+            Double tfidf = (Double)key_entry.getValue();
+            
+            UserKeywordTable u_key = new UserKeywordTable();
+            u_key.setKeyword(keyword);
+            u_key.setTfidfValue(tfidf);
+            u_key.setUserId(entry.getId());
+            
+            key_table[key_counter++] = u_key;
+        }
+        
+        Userentry u_entry = new Userentry();
+        u_entry.setAge(new Integer(entry.getAge()));
+        u_entry.setCacheDate(new java.sql.Date(entry.getLastCached().getTime()));
+        u_entry.setId(entry.getId());
+        u_entry.setKey_table(key_table);
+        u_entry.setMailAddress(entry.getMail_address());
+        u_entry.setName(entry.getName());
+        u_entry.setPassword(entry.getPassword());
+        u_entry.setRegistDate(new java.sql.Date(entry.getRegistDate().getTime()));
+        
+        Vector past_readed = entry.getPast_read_webs();
+        if(past_readed!=null){
+            int vec_len = past_readed.size();
+            String str_arr[] = new String[vec_len]; 
+            for(int i=0;i<vec_len;i++){
+                str_arr[i] = (String)past_readed.get(i);
+            }
+            u_entry.setPastReadPages(str_arr);    
+        }else{
+            u_entry.setPastReadPages(new String[0]);
+        }
+
+        return u_entry;
+    }
+    
+}

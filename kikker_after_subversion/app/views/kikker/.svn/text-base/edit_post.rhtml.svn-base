@@ -1,0 +1,3 @@
+<p><%=@user.nickname%>の情報の更新に成功しました</p><br>
+<font size="4"><%= link_to @user.nickname + "さんのページはコチラ",:action => "hatebu_html",:user_id => @user.nickname %></font><br>
+<%=render :partial => 'adsence'%>

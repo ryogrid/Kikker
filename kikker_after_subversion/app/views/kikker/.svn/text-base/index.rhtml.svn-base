@@ -1,0 +1,22 @@
+<%=render :partial => 'bunner'%>
+<%=render :partial => 'shinobi'%>
+        
+<DIV id=container>
+ 	<DIV id=body>
+	   <%=render :partial => 'introduction'%>
+	   <%=render :partial => 'search_box'%>
+	   <DIV class=option style="CLEAR: both">
+	    <H3><A>現在登録されているユーザ(<%= @users.length %>人)</A></H3>
+	    <DIV class=optionsub>
+	        <%=render :partial => 'adsence_lect'%>
+	        <% @users.each{ |user| %>
+	            <font size="4"><%= link_to user.nickname + "さん",:action => "hatebu_html",:user_id => user.nickname %></font><br>
+	        <%}%>
+		    </div>
+	   </div>
+	  </div>
+</div>
+<center><h2>Today's Page View is <font color="red" size="+2"><%= @counter.html_count %></font> ,RSS View is <font color="red" size="+2"><%=@counter.rss_count%></font> and Kikker API has called <font color="red" size="+2"><%=@counter.api_count%></font> times.</h2></center>
+<center><p>Copyright (C) 2005-2006 <a href="http://d.hatena.ne.jp/kanbayashi">Ryo</a> , All Right Reserved.</p></center>
+<center><p>powered by <a href="http://www.rubyonrails.org/"><font color=red>Ruby on Rails</font></a>!!</p><center>
+<%=render :partial => 'analytics'%>

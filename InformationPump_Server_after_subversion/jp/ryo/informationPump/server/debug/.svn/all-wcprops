@@ -1,0 +1,167 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/repos/!svn/ver/480/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug
+END
+SafePersistentTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/repos/!svn/ver/443/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/SafePersistentTest.java
+END
+CheckStrCode.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/repos/!svn/ver/281/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/CheckStrCode.java
+END
+EncodeDecodeTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/repos/!svn/ver/90/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/EncodeDecodeTest.java
+END
+HatebuCrawlTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/HatebuCrawlTest.java
+END
+FindCommunityWithGraphClustering.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/FindCommunityWithGraphClustering.java
+END
+MakeAdjacencyMatrix.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/MakeAdjacencyMatrix.java
+END
+RSSGetTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/repos/!svn/ver/179/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/RSSGetTest.java
+END
+HatebuCrawlForCollabForced.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/HatebuCrawlForCollabForced.java
+END
+UserDataExport.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/repos/!svn/ver/104/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/UserDataExport.java
+END
+KikkerAPITest.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/repos/!svn/ver/257/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/KikkerAPITest.java
+END
+YoutubeCrawlerTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/repos/!svn/ver/252/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/YoutubeCrawlerTest.java
+END
+getBookmarkCountTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/repos/!svn/ver/406/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/getBookmarkCountTest.java
+END
+CheckAdjacency.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/CheckAdjacency.java
+END
+ClusteringHelperTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/repos/!svn/ver/422/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/ClusteringHelperTest.java
+END
+CrawleEachBookmarkPageTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/repos/!svn/ver/466/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/CrawleEachBookmarkPageTest.java
+END
+IndependentAnalyzeTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/repos/!svn/ver/462/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/IndependentAnalyzeTest.java
+END
+checkIgnoreTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/repos/!svn/ver/177/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/checkIgnoreTest.java
+END
+HashTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/repos/!svn/ver/177/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/HashTest.java
+END
+CollabCrawlTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/CollabCrawlTest.java
+END
+UpdateCollabBookmarkTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/UpdateCollabBookmarkTest.java
+END
+DocumentRequestTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/DocumentRequestTest.java
+END
+PrintDate.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/repos/!svn/ver/177/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/PrintDate.java
+END
+CreateRssTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/repos/!svn/ver/77/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/CreateRssTest.java
+END
+CountBookmarkCountPerDay.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/repos/!svn/ver/431/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/CountBookmarkCountPerDay.java
+END
+GraphOutputFrame.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/GraphOutputFrame.java
+END
+MakeFirstCollabManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/MakeFirstCollabManager.java
+END
+RaadAdjacencyMatrix.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/repos/!svn/ver/461/trunk/InformationPump_Server/jp/ryo/informationPump/server/debug/RaadAdjacencyMatrix.java
+END

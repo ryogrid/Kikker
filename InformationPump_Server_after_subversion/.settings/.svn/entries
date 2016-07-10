@@ -1,0 +1,41 @@
+8
+
+dir
+510
+http://ryogrid.myhome.cx/svn/repos/trunk/InformationPump_Server/.settings
+http://ryogrid.myhome.cx/svn/repos
+
+
+
+2006-04-16T04:40:48.000000Z
+98
+ryo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+78a450e0-2e2b-0410-85a1-c6a81a88bdec
+
+org.eclipse.core.resources.prefs
+file
+
+
+
+
+2007-03-08T23:29:14.522552Z
+1365ae7b13aa525b404cb83ed4c86ddb
+2006-04-16T04:40:48.000000Z
+98
+ryo
+has-props
+

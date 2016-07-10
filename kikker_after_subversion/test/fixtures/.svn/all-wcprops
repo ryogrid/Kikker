@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/repos/!svn/ver/341/trunk/kikker3/test/fixtures
+END
+user_preferences.yml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/repos/!svn/ver/341/trunk/kikker3/test/fixtures/user_preferences.yml
+END
+users.yml
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/repos/!svn/ver/341/trunk/kikker3/test/fixtures/users.yml
+END
+counters.yml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/repos/!svn/ver/341/trunk/kikker3/test/fixtures/counters.yml
+END
+user_keywords.yml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/repos/!svn/ver/341/trunk/kikker3/test/fixtures/user_keywords.yml
+END
+taste_entries.yml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/repos/!svn/ver/341/trunk/kikker3/test/fixtures/taste_entries.yml
+END

@@ -1,0 +1,87 @@
+/*
+ * 作成日: 2006/02/06
+ *
+ * この生成されたコメントの挿入されるテンプレートを変更するため
+ * ウィンドウ > 設定 > Java > コード生成 > コードとコメント
+ */
+package jp.ryo.informationPump.server.helper;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import javax.xml.parsers.*;
+
+import jp.ryo.informationPump.server.util.Util;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.hsqldb.lib.StringInputStream;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
+public class BulkfeedsHelper {
+    private static final String BULKFEEDS_URL = "http://bulkfeeds.net/app/terms.xml";
+    private static final String API_KEY = "319dc4bd9272d69b148f52ec1ac160eb";
+    
+    //与えたStringの中で重要度の高いキーワードの配列を返す。Indexが小さい方が重要なキーワード
+    public static String[] getImportantWords(String contens){
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            contens = contens.replaceAll(new String(new byte[]{0x1b}),"");
+            Document doc = builder.parse(new ByteArrayInputStream((doPostToBulkfeeds(BULKFEEDS_URL,contens)).getBytes("utf-8")));
+            NodeList term_list = doc.getElementsByTagName("term");
+            
+            String result[] = new String[term_list.getLength()];
+            
+            int counter=0;
+            for(int i=0;i<term_list.getLength();i++){
+                Node tmp_node = term_list.item(i);
+                
+                String word=null;
+                try{
+                    word = tmp_node.getFirstChild().getNodeValue();
+                }catch(Exception e){
+                    continue;
+                }
+                
+                if((Util.check(word)==true)&&(Util.checkIgnoreKeyword(word.trim())==false)){
+                    result[counter] = word;     
+                    counter++;
+                }
+            }
+            
+            return result;
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            //無視
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    //与えた文章をcontentパラメータとして対象のURLにPostを行い、XMLで結果を得る
+    private static String doPostToBulkfeeds(String url,String contents){
+        HttpClient client = new HttpClient(new MultiThreadedHttpConnectionManager());
+        client.getParams().setParameter("http.protocol.content-charset","UTF-8");
+        client.getHttpConnectionManager().getParams().setConnectionTimeout(30000);
+        PostMethod post = new PostMethod(url);
+        post.setParameter("apikey",API_KEY);
+        post.setParameter("content",contents);
+        
+        try {
+            int ipostResultCode = client.executeMethod(post);
+            
+            final String strGetResponseBody = post.getResponseBodyAsString();
+            return strGetResponseBody;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            post.releaseConnection();
+        }
+        return null;
+    }
+}

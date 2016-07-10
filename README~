@@ -1,0 +1,8 @@
+sh starter_start.bat
+
+jp.crossfire.sample.SampleMain
+config/database.yml
+
+log/sysout_view.log
+
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HYPERDB>
+	<TABLE name="WebDocumentEntry" tableType="standard">
+		<COLUMN name="doc_type" type="Integer" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="title" type="VARCHAR(255)" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="url" type="VARCHAR(255)" unique="false" index="true" primary="PRIMARY" foreignTable="" foreignColumn="" />
+		<COLUMN name="bookmark_count" type="Integer" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="view_user_count" type="Integer" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="crawledDate" type="DATE" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="category" type="VARCHAR(255)" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="Description" type="TEXT" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="isAnalyzed" type="Integer" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+	</TABLE>
+	<TABLE name="UserEntry" tableType="standard">
+		<COLUMN name="id" type="VARCHAR(255)" unique="true" index="false" primary="PRIMARY" foreignTable="" foreignColumn="" />
+		<COLUMN name="password" type="VARCHAR(255)" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="name" type="VARCHAR(255)" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="mail_address" type="VARCHAR(255)" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="age" type="Integer" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="regist_date" type="DATE" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="cache_date" type="DATE" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+	</TABLE>
+	<TABLE name="WebDocument_keyword_table" tableType="standard">
+		<COLUMN name="doc_address" type="VARCHAR(255)" unique="false" index="true" primary="PRIMARY" foreignTable="" foreignColumn="" />
+		<COLUMN name="keyword" type="VARCHAR(255)" unique="false" index="true" primary="PRIMARY" foreignTable="" foreignColumn="" />
+		<COLUMN name="tfidf_value" type="REAL" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+	</TABLE>
+	<TABLE name="User_keyword_table" tableType="standard">
+		<COLUMN name="user_id" type="VARCHAR(255)" unique="false" index="true" primary="PRIMARY" foreignTable="" foreignColumn="" />
+		<COLUMN name="keyword" type="VARCHAR(255)" unique="false" index="true" primary="PRIMARY" foreignTable="" foreignColumn="" />
+		<COLUMN name="tfidf_value" type="REAL" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+	</TABLE>
+	<TABLE name="WebDocument_tag_table" tableType="standard">
+		<COLUMN name="doc_address" type="VARCHAR(255)" unique="false" index="true" primary="PRIMARY" foreignTable="" foreignColumn="" />
+		<COLUMN name="tag" type="VARCHAR(255)" unique="false" index="true" primary="PRIMARY" foreignTable="" foreignColumn="" />
+		<COLUMN name="tfidf_value" type="REAL" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+	</TABLE>
+	<TABLE name="UserViewedEntries" tableType="standard">
+		<COLUMN name="id" type="VARCHAR(255)" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+		<COLUMN name="doc_url" type="VARCHAR(255)" unique="false" index="false" primary="" foreignTable="" foreignColumn="" />
+	</TABLE>
+</HYPERDB>
+

@@ -1,0 +1,41 @@
+<%if @search_result["categories"].index(category) #一個でも該当するエントリがあれば%>
+	 <DIV id=container>
+	  <DIV id=body>
+	   <DIV class=option style="CLEAR: both">
+	
+	    <H3><A><%=category%></A></H3>
+	    <DIV class=optionsub>
+	     <%=render :partial => 'adsence_lect'%>
+	     <% entry_count = 0 %>
+	     <%@search_result["titles"].each_index{|index|%>
+	     
+	     <%if @search_result["categories"][index] == category%>
+	      <%break if entry_count > KikkerHelper::ALIGN_EACH_NEWS_HTML_LIMIT %>
+	      <%entry_count+=1%>
+	      
+	      <DIV class=entry>
+	        <SPAN class=entry-body>
+	          <%if @share_user != nil%>       
+	             <%=link_to @search_result["titles"][index],{:action => "learn",:category => "hatebu",:url => @search_result["urls"][index]},{:target => "_blank",:class => "bookmark"}%>
+	          <%else%>
+	             <%=link_to @search_result["titles"][index],@search_result["urls"][index],{:target => "_blank",:class => "bookmark"}%>
+	          <%end%>
+	        </SPAN>&nbsp;
+	        <SPAN class=entry-footer>&nbsp;
+	         <%=@search_result["crawled_dates"][index].split("-")[0]%>年<%=@search_result["crawled_dates"][index].split("-")[1]%>月<%=@search_result["crawled_dates"][index].split("-")[2]%>日
+	        </SPAN><br>
+	
+	        <SPAN class=entry-footer>キーワード:&nbsp;
+	        <%@search_result["tags"][index].each_index{ |tag_index| %>
+	           <%= link_to @search_result["tags"][index][tag_index][0],{:action => "news_keyword_html",:keyword => @search_result["tags"][index][tag_index][0]},{:class => "keyword"} %>&nbsp;
+	           <% break if tag_index > KikkerHelper::ARRANGE_KEYWORD_COUNT%>
+	        <%}%>
+	        </SPAN>
+	      </DIV>
+	     <%end%>
+	     <%}%>
+	    </div>
+	   </div>
+	  </div>
+	 </div>
+<%end%>

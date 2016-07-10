@@ -1,0 +1,8 @@
+<% if @user == nil%>
+  <p>入力内容が不正であったか、同一ユーザ名のユーザがすでにいたために登録に失敗しました</p>
+<% else %>
+  <p>
+   <em>ID:</em><%= @user.nickname %><em>パスワード:</em><%= @user.password%>で登録に成功しました</p><br>
+   <font size="4"><%= link_to @user.nickname + "さんのページはコチラ",:action => "hatebu_html",:user_id => @user.nickname %></font><br>
+<%end%>
+<%=render :partial => 'adsence'%>

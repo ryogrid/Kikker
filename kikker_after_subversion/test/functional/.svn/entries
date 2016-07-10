@@ -1,0 +1,41 @@
+8
+
+dir
+526
+http://ryogrid.myhome.cx/svn/repos/trunk/kikker3/test/functional
+http://ryogrid.myhome.cx/svn/repos
+
+
+
+2006-08-15T07:58:55.000000Z
+341
+ryo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+78a450e0-2e2b-0410-85a1-c6a81a88bdec
+
+kikker_controller_test.rb
+file
+
+
+
+
+2007-03-08T21:04:56.653147Z
+077860e46b53cd46452ec13738c11e60
+2006-08-15T07:58:55.000000Z
+341
+ryo
+has-props
+

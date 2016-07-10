@@ -1,0 +1,28 @@
+<%=render :partial => 'bunner'%>
+<%=render :partial => 'shinobi'%>
+
+<DIV id=container>
+ <DIV id=body>
+  <DIV class=option style="CLEAR: both">
+   <H3><A>ログイン</A></H3>
+   <% if flash[:notice] %>
+   <div id="notice">
+     <%= flash[:notice] %>
+   </div>
+   <% end %>
+   <DIV class=optionsub>
+	    <br>
+	    <%= start_form_tag :action => 'enter' %>
+	      <H2 class=registdescription>ユーザID</H2>
+	      <%= text_field 'user','nickname',{:size => 40}%><br>
+ 	     <H2 class=registdescription>パスワード</H2>
+ 	     <%= password_field 'user','password',{:size => 40}%><br>
+ 	     <%=render :partial => 'adsence'%><br>
+	      <%= submit_tag " ログイン " %>
+    	<%= end_form_tag %>
+   </div>
+  </div>
+ </div>
+</div>
+
+<%=render :partial => 'analytics'%>

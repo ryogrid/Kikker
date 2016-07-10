@@ -1,0 +1,163 @@
+package jp.ryo.informationPump.server.rpc;
+
+import java.util.*;
+
+import org.apache.commons.codec.EncoderException;
+import org.apache.commons.codec.net.URLCodec;
+
+import jp.ryo.informationPump.server.crawler.DBCrawledDataManager;
+import jp.ryo.informationPump.server.crawler.analyze.InDependentDocumentAnalyzer;
+import jp.ryo.informationPump.server.data.DocumentSearchResult;
+import jp.ryo.informationPump.server.util.CounterManager;
+
+public class GadgetRPCProcessor {
+    private final static String EQUAL_SEPARATOR = "!=";
+    private final static String AND_SEPARATOR = "!&";
+    private final static String ARRAY_SEPARATOR = "!%";
+    private final static int RETURN_ENTRY_LIMIT = 100;
+    
+    public static String excecuteGadgetRPC(String path){
+        try {
+            String params = path.substring(5);
+            
+            HashMap params_map = new HashMap();
+            String splited1[] = params.split(AND_SEPARATOR);
+            int len = splited1.length;
+            for(int i=0;i<len;i++){
+                String tmp_splited[] = splited1[i].split(EQUAL_SEPARATOR);
+                if(tmp_splited[1].indexOf(ARRAY_SEPARATOR) != -1){
+                    String tmp_splited2[] = tmp_splited[1].split("!%");
+                    params_map.put(tmp_splited[0],tmp_splited2);
+                }else{
+                    params_map.put(tmp_splited[0],tmp_splited[1]);    
+                }
+            }
+            
+            System.out.println("Gadget RPC called!!");
+            
+            CounterManager.getInstance().incAPIUsedCount();
+            if(params_map.containsKey("methodName")){
+                String method_name = (String)params_map.get("methodName");
+                
+                if(method_name.startsWith("searchByOneURL")){
+                    return convertToRPCResultStr(searchByOneURL(params_map));
+                }else if(method_name.startsWith("searchByKeywords")){
+                    return convertToRPCResultStr(searchByKeywords(params_map));
+                }else{
+                    return "I don't know " + method_name;
+                }
+//                return "gadget rpc can't work now.";
+            }else{
+                return "please set methodName!!";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+    
+    private static HashMap searchByKeywords(HashMap params_map) {
+        int doc_type = Integer.parseInt((String)params_map.get("doc_type"));
+        Object keywords[] = (Object[])params_map.get("keywords");
+        Object values[] = (Object[])params_map.get("values");
+        
+        HashMap taste_vec = new HashMap();
+        int len = keywords.length;
+        for(int i=0;i<len;i++){
+            taste_vec.put((String)keywords[i],Double.valueOf(Double.parseDouble((String)values[i])));
+        }
+        
+        return search(doc_type,taste_vec);
+    }
+    
+    
+    private static HashMap searchByOneURL(HashMap params_map) {
+        String url = (String)params_map.get("url");
+        int doc_type = Integer.parseInt((String)params_map.get("doc_type"));
+        
+        InDependentDocumentAnalyzer analyzer = new InDependentDocumentAnalyzer();
+        HashMap taste_vec = analyzer.analyzeByURL(url);
+        
+        return search(doc_type, taste_vec);
+    }
+
+    private static HashMap search(int doc_type, HashMap taste_vec) {
+        DBCrawledDataManager c_manager = (DBCrawledDataManager)DBCrawledDataManager.getInstance();
+        DocumentSearchResult search_result = c_manager.search(taste_vec, doc_type);
+        
+        int len = search_result.results.length;
+        String video_titles[] = new String[((RETURN_ENTRY_LIMIT > len)?len:RETURN_ENTRY_LIMIT)];
+        String video_ids[] = new String[((RETURN_ENTRY_LIMIT > len)?len:RETURN_ENTRY_LIMIT)];
+        
+        URLCodec codec = new URLCodec();
+        HashMap result_map = new HashMap();
+        for(int i=0;i<((RETURN_ENTRY_LIMIT > len)?len:RETURN_ENTRY_LIMIT);i++){
+            try {
+                video_titles[i] = codec.encode(search_result.results[i].getTitle()).replace('+',' ');
+            } catch (EncoderException e) {
+                e.printStackTrace();
+            }
+            video_ids[i] = search_result.results[i].getDescription();
+            
+            //タグの配列をビデオのIDをKeyとして突っ込む
+            HashMap keyword_map = search_result.results[i].getKeywords();
+            Iterator keyword_itr = keyword_map.keySet().iterator();
+            String keyword_arr[] = new String[keyword_map.size()];
+            int counter = 0;
+            while(keyword_itr.hasNext()){
+                try {
+                    keyword_arr[counter] = codec.encode((String)keyword_itr.next());
+                } catch (EncoderException e) {
+                    e.printStackTrace();
+                }
+                counter++;
+            }
+            result_map.put(video_ids[i],keyword_arr);    
+        }
+        
+        result_map.put("video_titles",video_titles);
+        result_map.put("video_ids", video_ids);
+        
+        return result_map;
+    }
+
+    //resultのkeyはString,valueはStringもしくはString[]
+    public static String convertToRPCResultStr(HashMap result){
+        Set entry_set = result.entrySet();
+        Iterator entry_itr = entry_set.iterator();
+        
+        StringBuffer result_buf = new StringBuffer();
+        int counter = 0;
+        while(entry_itr.hasNext()){
+            Map.Entry tmp_entry = (Map.Entry)entry_itr.next();
+            String key = (String)tmp_entry.getKey();
+            Object value = tmp_entry.getValue();
+            
+            if(value instanceof String){
+                String value_str = (String)value;
+                result_buf.append(AND_SEPARATOR);
+                result_buf.append(key);
+                result_buf.append(EQUAL_SEPARATOR);
+                result_buf.append(value_str);
+            }else if(value instanceof String[]){
+                Object value_arr[] = (Object[])value;
+                
+                result_buf.append(AND_SEPARATOR);
+                result_buf.append(key);
+                result_buf.append(EQUAL_SEPARATOR);
+                int len = value_arr.length;
+                for(int i=0;i<len;i++){
+                    if(i!=0){
+                        result_buf.append(ARRAY_SEPARATOR);
+                    }
+                    result_buf.append((String)value_arr[i]);
+                }
+            }else{
+                throw new RuntimeException("RPC Result Value is not Correct.");
+            }
+        }
+        
+        System.out.println((result_buf.toString()).substring(AND_SEPARATOR.length()));
+        return (result_buf.toString()).substring(AND_SEPARATOR.length());
+    }
+}

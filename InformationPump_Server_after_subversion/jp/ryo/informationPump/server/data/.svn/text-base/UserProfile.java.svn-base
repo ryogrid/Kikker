@@ -1,0 +1,122 @@
+package jp.ryo.informationPump.server.data;
+
+import java.io.Serializable;
+import java.util.*;
+
+public class UserProfile implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
+    private String id;
+    private String password;
+    private String name;
+    private String mail_address;
+    private int age;
+    private String address;
+    private Date lastCached;
+    private Date registDate;
+    
+    private HashMap taste_vector;
+    private Vector past_read_webs = new Vector();
+    
+    public UserProfile(String address, String id, String mail_address,int age, String name, String password) {
+        super();
+        this.address = address;
+        this.id = id;
+        this.mail_address = mail_address;
+        this.age = age;
+        this.name = name;
+        this.password = password;
+    }
+    
+    public HashMap getTasteVector(){
+        return (HashMap)taste_vector.clone();
+    }
+    
+    public void updateTaste(HashMap taste_vector){
+        this.taste_vector = taste_vector;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getMail_address() {
+        return mail_address;
+    }
+    public void setMail_address(String mail_address) {
+        this.mail_address = mail_address;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+//    public HashMap getTaste_vector() {
+//        return taste_vector;
+//    }
+
+    public void setTaste_vector(HashMap taste_vector) {
+        this.taste_vector = taste_vector;
+    }
+    
+    public void addPage(String name){
+        past_read_webs.add(name);
+    }
+    
+    public Vector getPages(){
+        return (Vector)past_read_webs.clone();
+    }
+    
+    public void setPastReadPages(Vector vec){
+        this.past_read_webs = vec;
+    }
+
+    public Date getLastCached() {
+        return lastCached;
+    }
+
+    public void setLastCached(Date lastCached) {
+        this.lastCached = lastCached;
+    }
+
+    public Vector getPast_read_webs() {
+        return past_read_webs;
+    }
+
+    public void setPast_read_webs(Vector past_read_webs) {
+        this.past_read_webs = past_read_webs;
+    }
+
+    public Date getRegistDate() {
+        return registDate;
+    }
+
+    public void setRegistDate(Date registDate) {
+        this.registDate = registDate;
+    }
+
+}

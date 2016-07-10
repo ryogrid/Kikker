@@ -1,0 +1,40 @@
+<DIV id=banner>
+<H1><a href="http://ryogrid.myhome.cx/wiki/pukiwiki.php?Kikker"><IMG height=40 alt=Kikker" src="http://ryogrid.myhome.cx/distribute/kikker_moji.GIF" width=104></a>
+<a href="http://ryogrid.myhome.cx/wiki/pukiwiki.php?Kikker"><IMG height=40 alt=kikker src="http://ryogrid.myhome.cx/distribute/suggest.GIF" width=118></a><a href="http://ryogrid.myhome.cx/wiki/pukiwiki.php?Kikker"><IMG height=40 alt=tri src="http://ryogrid.myhome.cx/distribute/square.GIF" width=15 useMap=#kikkermap border=0></a></H1><a href="http://ryogrid.myhome.cx/wiki/pukiwiki.php?Kikker"><IMG class=logo title=Kikker alt=Kikker src="http://ryogrid.myhome.cx/distribute/kikker.GIF"></a></DIV><MAP name=kikkermap><AREA title=Kikker shape=RECT alt=Kikker coords=1,10,15,25 href="http://ryogrid.myhome.cx/wiki/pukiwiki.php?Kikker"><AREA title=Kikker shape=RECT alt=Kikker coords=1,25,15,40 href="http://ryogrid.myhome.cx/wiki/pukiwiki.php?Kikker"></MAP>
+<DIV id=bannersub>
+<TABLE cellSpacing=0>
+<TBODY>
+<TR>
+<TD style="TEXT-ALIGN: left" noWrap width="50%">&nbsp;ようこそ
+<%=(@share_user != nil) ? @share_user.nickname : "誰か" %></A>さん&nbsp;</TD>
+        <TD noWrap><A href="/">Top</A></TD>
+        <TD noWrap><%= link_to "ユーザ登録",:action => "regist"%></TD>
+        <TD noWrap><%= link_to "登録情報変更",:action => "edit"%></TD>
+        <% if @share_user != nil %>
+            <TD noWrap><%= link_to "ログアウト",:action => "logout"%></TD>
+        <%else%>
+            <TD noWrap><%= link_to "ログイン",:action => "enter"%></TD>
+        <%end%>
+
+        <% if @bunner_type==KikkerHelper::BUNNER_TYPE_HATEBU %>
+            <% if @share_user != nil %>
+                <TD noWrap><%= link_to "My Newsへ",:action => "news_html",:user_id => @share_user.nickname%></TD>
+            <% else %>
+                <TD noWrap><%= link_to "お薦めNewsへ",:action => "news_html",:user_id => @user_id%></TD>
+            <% end %>
+        <% elsif @bunner_type==KikkerHelper::BUNNER_TYPE_NEWS %>
+            <% if @share_user != nil %>
+                <TD noWrap><%= link_to "My はてブへ",:action => "hatebu_html",:user_id => @share_user.nickname%></TD>
+            <% else %>
+                <TD noWrap><%= link_to "お薦めはてブへ",:action => "hatebu_html",:user_id => @user_id%></TD>
+            <% end %>
+        <% else %>
+            <% if @share_user != nil %>
+                <TD noWrap><%= link_to "My はてブへ",:action => "hatebu_html",:user_id => @share_user.nickname %></TD>
+            <% end %>
+        <% end %>
+
+        <TD noWrap><A href="http://ryogrid.myhome.cx/wiki/pukiwiki.php?Kikker">Wikiへ</A></TD>
+        <TD noWrap><A href="http://ryogrid.myhome.cx/wiki/pukiwiki.php?%A4%E8%A4%AF%A4%A2%A4%EB%BC%C1%CC%E4">Q&A</A></TD>
+        </TR></TBODY></TABLE></DIV>
+<br><br>

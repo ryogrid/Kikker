@@ -1,0 +1,16 @@
+class CreateUserPreferences < ActiveRecord::Migration
+  def self.up
+    create_table :user_preferences, :options => 'DEFAULT CHARSET=utf8' do |t|
+      t.column :user_id, :integer,:null => false
+      t.column :point_threthold, :integer
+      t.column :simirality_threthold,:integer
+      t.column :arrange_entry_count,:integer
+    end
+    add_index :user_preferences, :id
+    add_index :user_preferences, :user_id
+  end
+
+  def self.down
+    drop_table :user_preferences
+  end
+end

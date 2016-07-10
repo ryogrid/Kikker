@@ -1,0 +1,89 @@
+$$パッケージの各ディレクトリの説明
+-InformationPump_Server_after_subversion
+Javaによる計算部. クローリングなども行う. kikker_after_subversionからのXML RPCのリクエストを受ける.
+Eclipseで開けばビルド可.
+Kikkerやはてブおせっかいに対応する処理を行う.
+
+-DBMappingForKikker
+Javaによる計算部でのDBアクセスに利用. InformationPump_Server_after_subversionから利用.
+Eclipseで開けばビルド可.
+CrossfireDB(http://crossfire.jp/blastj/)というプロダクトを使用している.
+
+-kikker_after_subversion
+RailsによるKikkerのWebポータル.
+
+-hujita_office_tour.ppt
+オフィスツアーの時に私が使用したppt
+
+-README
+このドキュメント
+
+$$ライセンス
+好きにして頂いてかまいません.
+商用でのコードの流用もOKです.
+
+ただ,DBMappingForKikkerで使っているCrossfireDBは商用では無償利用できないかもしれないので,DBMappingForKikkerの中身については要注意です.
+
+$$Java部について
+-動かすために必要なこと
+DBのセットアップ(MySQL)が必要.
+セットアップ用のSQLはDBMappingForKikker/sql/generatedSQL_for_first.sqlにある.
+セットアップをしたらDBMappingForKikker/src/jp/ryo/informationPump/server/db/DBManager.javaのinitMySQLメソッド内にDBにアクセスするためのIDやパスワード,またDB名を設定すること.
+
+-動かし方
+InformationPump_Server_after_subversion直下で
+---------------------
+sh starter_start.bat
+--------------------
+とすればOK
+
+-おおまかな動作の説明
+基本的にはjp.ryo.informationPump.server.ViewServerがエントリポイントとなります.
+ただ,諸事情でViewServerを定期的に再起動する必要があったため,jp.ryo.informationPump.server.ServerStarterでキック(exec)するという事をしています.
+
+計算処理については
+jp.ryo.informationPump.server.exchange_server.cul.SimilarityCalculator (ベクトル計算)
+#今見返してみると,計算処理の部分が怪しい気がするので,計算方法は疑ってかかった方がよいかも
+や
+jp.ryo.informationPump.server.collab.CollaborativeInformatoinManager (コラボレィティブフィルタ)
+を見るといいと思います.
+
+クローリングは
+jp.ryo.informationPump.server.crawler.*
+のクラスをスレッドとして定期的に走らせて行っています.
+
+XML RPCのエントリポイントは
+7777番ポートです
+
+-補足情報
+--ログの出力先
+log/sysout_view.log
+
+-注意
+はてブのクローリングが,はてなのHTML構造変更により失敗しているようです.
+動作を追える程度には動作するようですが,クローリングして得られたデータには欠落がある可能性があります.
+従って,クローリングした結果のデータで一部の要素が欠落していたりしてもそれは動かし方が間違っているためではありません.
+
+$$Ruby部について
+-動かすために必要なこと
+Ruby on RailsとMySQLにアクセスするためのコネクタのインストール.
+これについてはWebにたくさん情報があるのでそれらを参照のこと.
+
+DBのセットアップは
+config/database.ymlにデータベースの情報を書いた上で
+kikker_after_subversionディレクトリ直下で
+-----------------
+rake db:migrate
+----------------
+とすれば完了です.
+
+-動かし方
+kikker_after_subversionディレクトリ直下で
+-------------------------------------------------
+ruby script/server -p ポート番号 -e development
+-------------------------------------------------
+とすれば，指定したポート番号でWebページが提供されるようになります.
+
+-おおまかな動作の説明
+ユーザからリクエストを受けページを生成します.
+ページ生成のために必要な推薦情報はJava部に対しXML RPCの呼び出しを行い取得します.

@@ -1,0 +1,56 @@
+package jp.ryo.informationPump.server.debug;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+
+import org.htmlparser.util.ParserException;
+
+import jp.ryo.informationPump.server.collab.CollaborativeInformatoinManager;
+import jp.ryo.informationPump.server.helper.HatebuHelper;
+import jp.ryo.informationPump.server.persistent.PersistentManager;
+import jp.ryo.informationPump.server.util.SparseMatrix;
+
+public class CollabCrawlTest {
+    /**
+     * @param args
+     */
+    public static void main(String args[]){
+        PersistentManager p_manager = PersistentManager.getInstance();
+        
+        File test_file = new File(PersistentManager.COLLAB_DATA_PATH + PersistentManager.COLLAB_ARRAY_DATA_FILE);
+        SparseMatrix matrix = null;
+        if(test_file.exists()){
+            matrix = (SparseMatrix)p_manager.readObjectFromFile(PersistentManager.COLLAB_DATA_PATH + PersistentManager.COLLAB_ARRAY_DATA_FILE);
+        }else{
+            try {
+                matrix = HatebuHelper.crawlForCollab(600);
+            } catch (ParserException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            p_manager.writeObjectToFile(PersistentManager.COLLAB_DATA_PATH + PersistentManager.COLLAB_ARRAY_DATA_FILE,matrix);
+        }
+        
+//        int x_len = matrix.getXlength();
+//        int y_len = matrix.getYlength();
+//        for(int i=0;i<x_len;i++){
+//            for(int j=0;j<y_len;j++){
+//                Object obj = matrix.getValueByIndex(i,j);
+//                if(obj!=null){
+//                    matrix.setValueByIndex(i,j,new Double(1));
+//                }
+//            }
+//        }
+//        p_manager.writeObjectToFile(PersistentManager.COLLAB_DATA_PATH + PersistentManager.COLLAB_DATA_FILE,matrix);
+        
+        CollaborativeInformatoinManager b_manager = CollaborativeInformatoinManager.getInstance();
+        b_manager.setMatrix(matrix);
+        ArrayList result = b_manager.getSuggestedDocumentes("chidarinn");
+//        System.out.println(result);
+    }
+}

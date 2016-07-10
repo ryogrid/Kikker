@@ -1,0 +1,58 @@
+<%=render :partial => 'bunner'%>
+<%=render :partial => 'shinobi'%>
+
+<DIV id=container>
+ <DIV id=body>
+  <DIV class=option style="CLEAR: both">
+ 	  <H3><A>Kikker 新規ユーザー登録(はてブの情報から趣向情報を取り出す)</A></H3>
+ 	  <% if flash[:notice] %>
+   　　<div id="notice">
+     　　　<%= flash[:notice] %>
+   　　</div>
+   <% end %>
+    	<DIV class=optionsub>	<br>
+     	<%= start_form_tag :action => "regist"%>
+     	 <H2 class=registdescription>あなたが希望するユーザID</H2>
+	      <%= text_field :user,'nickname',{:size => 40}%><br>
+ 	     	<H2 class=registdescription>あなたが希望するパスワード</H2>
+ 	     <%= password_field :user,'password',{:size => 40}%><br>
+ 	     <H2 class=registdescription>はてブのアカウント名(ブクマしたエントリからもKikkerは学習して行きます)</H2> 	     
+ 	     <%= text_field_tag 'hatebu_user_name',"",{:size => 40}%><br>
+ 	     <%=render :partial => 'adsence'%><br>
+      <%=hidden_field_tag "regist_type","with_hatebu"%>
+	      <%= submit_tag " 登録 " %>
+     <%= end_form_tag%>
+   　　</DIV>
+   	</div>
+  	</div>
+</div>
+
+<DIV id=container>
+ <DIV id=body>
+  <DIV class=option style="CLEAR: both">
+ 	  <H3><A>Kikker 新規ユーザー登録(キーワードを全て自分で設定する)</A></H3>
+ 	  <% if flash[:notice] %>
+   　　<div id="notice">
+     　　　<%= flash[:notice] %>
+   　　</div>
+   <% end %>
+   　　<DIV class=optionsub>	<br>	
+     	<%= start_form_tag :action => "regist"%>
+     	 <H2 class=registdescription>あなたが希望するユーザID</H2>
+	      <%= text_field :user,'nickname',{:size => 40}%><br>
+ 	     	<H2 class=registdescription>あなたが希望するパスワード</H2>
+ 	     <%= password_field :user,'password',{:size => 40}%><br>
+ 	     <%=render :partial => 'adsence'%><br>
+ 	     <H2 class=registdescription>あなたの好きな言葉とどれぐらい好きかの登録</H2>
+ 	     <%= text_area :user,'taste_vector',{:rows => 10,:cols => 60}%>
+      	<H2 class=registdescription>説明:　<font size="4"><em>SNS:50,Ajax:10,Java:820</em></font>　というように　<font size="4"><em>キーワード:あなたがどれぐらいその言葉が気になるかを表した好きな数値</em></font>　のペアを　<font size="4"><em>カンマ(,)</em></font>　で区切って記入してください。改行は入れないで下さい</H2>
+      	<H2 class=registdescription>例:　車の事が大好きで、花が好きで、お菓子がちょこっと好きなRyo君だったら　<font size="4"><em>車:1000,花:500,お菓子:100</em></font>　というように上の記入ボックスに打ち込めばいい</H2>
+      <%=hidden_field_tag "regist_type","with_keywords"%>
+	      <%= submit_tag " 登録 " %>
+     <%= end_form_tag%>
+	    	</div>
+   	</div>
+  	</div>
+</div>
+
+<%=render :partial => 'analytics'%>

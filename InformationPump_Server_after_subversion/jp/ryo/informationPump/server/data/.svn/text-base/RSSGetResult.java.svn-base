@@ -1,0 +1,17 @@
+package jp.ryo.informationPump.server.data;
+
+import java.util.Date;
+
+import de.nava.informa.impl.basic.Item;
+
+public class RSSGetResult {
+    public Item items[];
+    public Date last_updated;
+
+    public RSSGetResult(Item[] items, Date last_updated) {
+        super();
+        
+        this.items = items;
+        this.last_updated = last_updated;
+    }
+}

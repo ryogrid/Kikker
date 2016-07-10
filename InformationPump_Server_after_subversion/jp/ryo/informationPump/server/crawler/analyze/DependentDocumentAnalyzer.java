@@ -1,0 +1,178 @@
+package jp.ryo.informationPump.server.crawler.analyze;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+
+import jp.ryo.informationPump.server.crawler.*;
+
+import jp.ryo.informationPump.server.data.DoGetResultWithCharset;
+import jp.ryo.informationPump.server.data.KeyAndDoubleTFIDF;
+import jp.ryo.informationPump.server.helper.BulkfeedsHelper;
+import jp.ryo.informationPump.server.helper.YahooHelper;
+import jp.ryo.informationPump.server.util.*;
+import net.java.sen.StringTagger;
+import net.java.sen.Token;
+
+import org.htmlparser.filters.StringFilter;
+import org.htmlparser.lexer.Lexer;
+import org.htmlparser.util.NodeIterator;
+import org.htmlparser.util.ParserException;
+
+//与えたURLのサイトを解析して得たベクトルを終了時にセットしに行くスレッド
+public class DependentDocumentAnalyzer extends DocumentAnalyzer {
+    private ArrayList keywords;
+    private String targetURL;
+    private String already_known_keywords[];
+    private int doc_type;
+    
+    public DependentDocumentAnalyzer(String url,String already_known[],int doc_type) {
+        this.targetURL = url;
+        this.already_known_keywords = already_known;
+        this.doc_type = doc_type;
+    }
+    
+    public static void giveDocumentToEngine(String url,String already_known[],int doc_type) {
+        //エンジンの処理は別スレッドで行う
+        Thread th = new Thread((new DependentDocumentAnalyzer(url,already_known,doc_type)));
+        th.setPriority(Thread.MIN_PRIORITY);
+        th.start();
+    }
+    
+    //  ドキュメントの種類に応じてパースしてキーワードを抽出して返す
+    //  返却されるのはkey=キーワード Value=評価値(Double)のHashMap
+    //  keywordsに評価値が大きい順にソートされたキーワード(String)を要素として持つArrayListをセットする
+    //  失敗した場合はnullを返す
+    
+    //解析する前に知っているキーワードやタグのtfidfを計算するためにtag_keywords[]を
+    //渡してもよい
+    public HashMap parseDocument(String str_body,String tag_keywords[]){
+                //トークンナイズ
+            Token[] token=null;
+            try {
+                StringTagger tagger = StringTagger.getInstance();
+                token = tagger.analyze(str_body);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+            if(token==null){
+                return null;    //このドキュメントは無視
+            }
+            
+            //後で数をカウントするためにMapへ
+            HashMap tmpMap = new HashMap();
+            for(int i=0; i<token.length; i++){
+                  if((token[i].getPos().startsWith("未知語")||(token[i].getPos().startsWith("名詞")))&&filterKeyword(token[i].getBasicString())){
+                      //ひとまずキーワードをMapへ更新
+                      Object obj= tmpMap.get(token[i].getBasicString());
+                      if(obj!=null){
+                          Integer keyword_count = (Integer)obj;
+                          tmpMap.put(token[i].getBasicString(),Integer.valueOf(Integer.toString(keyword_count.intValue() + 1)));
+                      }else{
+                          tmpMap.put(token[i].getBasicString(),Integer.valueOf("1"));
+                      }
+                }
+            }
+            
+            //bulkfeedsにアクセスしてキーワード抽出の前処理
+            String key_strs[] =  BulkfeedsHelper.getImportantWords(str_body);
+            
+            if(key_strs==null){
+                return null;//このドキュメントは無視
+            }
+            
+            //事前に調べてあるキーワードも追加
+            String marged_key_str[] = new String[key_strs.length+tag_keywords.length];
+            for(int i=0;i<key_strs.length;i++){
+                marged_key_str[i] = key_strs[i];
+            }
+            for(int i=key_strs.length;i<marged_key_str.length;i++){
+                marged_key_str[i] = tag_keywords[i-key_strs.length];
+            }
+                
+            //各キーワードについてtf/idfの計算
+            ArrayList tmpList = new ArrayList();
+            for(int i=0;i<key_strs.length;i++){
+                String keyword = key_strs[i];
+                Integer count = (Integer)tmpMap.get(key_strs[i]);
+                
+                //bulkfeedsから返ってきたキーワードが名詞or未知語でない場合は無視
+                if(count==null){
+                    continue;
+                }
+                
+                int keyCount = count.intValue();
+                
+                double tfidf;
+                try {
+                    tfidf = ((float)keyCount) * Math.log(19200000000.0/(double)YahooHelper.getContainsPageCount(new String[]{keyword}));
+                    tmpList.add(new KeyAndDoubleTFIDF(keyword,Double.valueOf(String.valueOf(tfidf))));
+                } catch (IOException e) {
+                    e.printStackTrace();//検索に失敗したのでこのキーワードは追加しない
+                }   
+            }
+            Collections.sort(tmpList,new DoubleComp());
+            
+            keywords = new ArrayList();
+            //このTagの情報として保持(順位付けして)
+            for(int i=0;i<tmpList.size();i++){
+                keywords.add(i,((KeyAndDoubleTFIDF)tmpList.get(i)).keyword);
+            }
+            
+            HashMap resultVecMap = new HashMap();
+
+            //結果を生成
+            int len = keywords.size();
+            for(int i=0;i<len;i++){
+                KeyAndDoubleTFIDF key_tfidf = (KeyAndDoubleTFIDF)tmpList.get(i);
+                resultVecMap.put(key_tfidf.keyword,key_tfidf.tfidf);
+            }
+            
+            return resultVecMap;
+    }
+
+    
+    public void run() {
+
+        DoGetResultWithCharset result_w_charset = Util.doGetWithCharset(targetURL);
+        
+        if(result_w_charset!=null){
+            String correct_encoded=null;
+            try {
+                if (result_w_charset.charset != null) {
+                    correct_encoded = getEncodedStr(result_w_charset.body,result_w_charset.charset);
+                } else {
+                    correct_encoded = getCorrectEncodeHTML(result_w_charset.body);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            
+//            System.err.println(correct_encoded);
+//          コメントタグ(おそらくJavaScriptが書いてあるだろう)を取り除く
+            correct_encoded = Util.replaceCommentTags(correct_encoded);
+            
+            
+            correct_encoded = getTextPartOfHTML(correct_encoded);
+            
+            correct_encoded = Util.replaseSpecialChars(correct_encoded);
+            correct_encoded = correct_encoded.replaceAll("\r","");
+            correct_encoded = correct_encoded.replaceAll("\n","");
+            
+            HashMap taste_vec = parseDocument(correct_encoded,already_known_keywords);
+            if(taste_vec!=null){
+                CrawledDataManager c_manager = DBCrawledDataManager.getInstance();
+                //解析結果で解析されていない状態から更新する
+                c_manager.setAnalyzedResults(targetURL,taste_vec,keywords,doc_type);
+//                System.out.println(taste_vec);
+            }else{ 
+                CrawledDataManager c_manager = DBCrawledDataManager.getInstance();
+                //解析された事だけを示すため
+                c_manager.setAnalyzedResults(targetURL,new HashMap(),keywords,doc_type);
+            }
+        }
+     }
+}

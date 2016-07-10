@@ -1,0 +1,64 @@
+/*
+ * 作成日: 2006/02/05
+ *
+ * この生成されたコメントの挿入されるテンプレートを変更するため
+ * ウィンドウ > 設定 > Java > コード生成 > コードとコメント
+ */
+package jp.ryo.informationPump.server.util;
+
+import java.util.Comparator;
+import java.util.Map;
+
+import jp.ryo.informationPump.server.data.*;
+
+//大きい順に指定する Comparator
+public class DoubleComp implements Comparator {
+  
+  // コンストラクタ
+  public DoubleComp() {
+    super();
+  }
+  
+  public boolean equals(Object obj) {
+    return (super.equals(obj));
+  }
+  
+  // ここで多い順に指定する
+  public int compare(Object obj1, Object obj2) {
+      
+    double v1;
+    double v2;
+    if(obj1 instanceof KeyAndDoubleTFIDF){
+        v1 = ((KeyAndDoubleTFIDF)obj1).tfidf.doubleValue();
+        v2 = ((KeyAndDoubleTFIDF)obj2).tfidf.doubleValue();    
+    }else if(obj1 instanceof Map.Entry){  
+        v1 = ((Double)(((Map.Entry)obj1).getValue())).doubleValue();
+        v2 = ((Double)(((Map.Entry)obj2).getValue())).doubleValue();
+    }else if(obj1 instanceof Double){
+        v1 = ((Double)obj1).doubleValue();
+        v2 = ((Double)obj2).doubleValue();
+    }else if(obj1 instanceof SortBoxForWebData){
+        v1 = ((SortBoxForWebData)obj1).simirality.doubleValue();
+        v2 = ((SortBoxForWebData)obj2).simirality.doubleValue();
+    }else if(obj1 instanceof SortBoxForDocumentEntry){
+        v1 = ((SortBoxForDocumentEntry)obj1).simirality.doubleValue();
+        v2 = ((SortBoxForDocumentEntry)obj2).simirality.doubleValue();
+    }else if(obj1 instanceof SortBoxForUserProfile){
+        v1 = ((SortBoxForUserProfile)obj1).simirality.doubleValue();
+        v2 = ((SortBoxForUserProfile)obj2).simirality.doubleValue();
+    }else if(obj1 instanceof CollabSortBox){
+        v1 = ((CollabSortBox)obj1).eval_point.doubleValue();
+        v2 = ((CollabSortBox)obj2).eval_point.doubleValue();
+    }else{
+        throw new RuntimeException();
+    }
+    
+    if(v1 == v2){
+        return 0;
+    }else if(v1 > v2){
+        return -1;
+    }else{
+        return 1;
+    }
+  }
+}

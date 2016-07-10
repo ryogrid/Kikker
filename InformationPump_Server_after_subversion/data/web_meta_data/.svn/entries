@@ -1,0 +1,41 @@
+8
+
+dir
+510
+http://ryogrid.myhome.cx/svn/repos/trunk/InformationPump_Server/data/web_meta_data
+http://ryogrid.myhome.cx/svn/repos
+
+
+
+2006-02-09T06:24:12.000000Z
+70
+ryo
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+78a450e0-2e2b-0410-85a1-c6a81a88bdec
+
+.cvsignore
+file
+
+
+
+
+2007-03-08T23:27:30.462921Z
+9cbcc16ac35781ef93228271736953dd
+2006-02-09T06:24:12.000000Z
+70
+ryo
+has-props
+

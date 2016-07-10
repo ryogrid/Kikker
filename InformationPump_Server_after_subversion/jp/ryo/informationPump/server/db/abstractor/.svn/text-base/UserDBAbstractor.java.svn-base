@@ -1,0 +1,73 @@
+package jp.ryo.informationPump.server.db.abstractor;
+
+import java.io.Serializable;
+import java.sql.Date;
+
+import jp.ryo.informationPump.server.data.UserProfile;
+import jp.ryo.informationPump.server.db.UserDBManagerWrapper;
+import jp.ryo.informationPump.server.db.tables.Userentry;
+import jp.ryo.informationPump.server.util.DBUtil;
+import jp.ryo.informationPump.server.util.Util;
+
+public class UserDBAbstractor implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
+    private UserDBManagerWrapper u_wrapper;
+    private static UserDBAbstractor instance;
+    
+    private UserDBAbstractor(){
+        u_wrapper = UserDBManagerWrapper.getInstance(); 
+    }
+    
+    public static UserDBAbstractor getInstace(){
+        if(instance==null){
+            instance = new UserDBAbstractor();
+        }
+        return instance;
+    }
+    
+    public UserProfile getUser(String id){
+        if(DBCacheManager.isCached(DBCacheManager.USER_CACHE_PREFIX + id)){
+            System.out.println("a user hited from A USER_PROFILE_CACHE");
+            return (UserProfile)DBCacheManager.getCache(DBCacheManager.USER_CACHE_PREFIX + id);
+        }else if(DBCacheManager.isCached(DBCacheManager.ALL_USER_PROFILE_CACHE)){
+            System.out.println("a user hited from ALL_USER_PROFILE_CACHE");
+            UserProfile[] cached_all = (UserProfile[])DBCacheManager.getCache(DBCacheManager.ALL_USER_PROFILE_CACHE);
+            int len = cached_all.length;
+            for(int i=0;i<len;i++){
+                if(cached_all[i].getId().equals(id)){
+                    return cached_all[i];
+                }
+            }
+        }
+
+        UserProfile profiles[] = DBUtil.convertToUserProfileArray(u_wrapper.selectWithID(id));
+        if(profiles.length>=1){
+            DBCacheManager.putCache(DBCacheManager.USER_CACHE_PREFIX + id,profiles[0]);
+            return profiles[0];            
+        }else{
+            return null;
+        }    
+    }
+    
+    public void addNewUser(UserProfile newUser){
+        u_wrapper.createUser(newUser.getId(),newUser.getPassword(),newUser.getName(),newUser.getMail_address(),newUser.getAge(),(newUser.getRegistDate()!=null)?new Date(newUser.getRegistDate().getTime()):new java.sql.Date((new java.util.Date()).getTime()),newUser.getTasteVector());
+        DBCacheManager.putCache(DBCacheManager.USER_CACHE_PREFIX+newUser.getId(),newUser);
+    }
+    
+    public UserProfile[] getAllUser(){
+        if(DBCacheManager.isCached(DBCacheManager.ALL_USER_PROFILE_CACHE)){
+            System.out.println("ALL_USER_PROFILE_CACHE hited!!");
+            return (UserProfile[])DBCacheManager.getCache(DBCacheManager.ALL_USER_PROFILE_CACHE);
+        }else{
+            UserProfile profile[] =  DBUtil.convertToUserProfileArray(u_wrapper.selectAll());
+            DBCacheManager.putCache(DBCacheManager.ALL_USER_PROFILE_CACHE,profile);
+            return profile; 
+        }
+    }
+    
+    public void updateUser(UserProfile user){
+        u_wrapper.updateUser(DBUtil.convertToUserentry(user));
+        DBCacheManager.putCache(DBCacheManager.USER_CACHE_PREFIX+user.getId(),user);
+    }
+}

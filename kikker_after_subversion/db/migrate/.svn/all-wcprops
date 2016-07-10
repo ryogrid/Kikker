@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/repos/!svn/ver/357/trunk/kikker3/db/migrate
+END
+004_create_taste_entries.rb
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/repos/!svn/ver/341/trunk/kikker3/db/migrate/004_create_taste_entries.rb
+END
+006_add_some_about_hatebu_to_preference.rb
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/repos/!svn/ver/357/trunk/kikker3/db/migrate/006_add_some_about_hatebu_to_preference.rb
+END
+001_create_users.rb
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/repos/!svn/ver/341/trunk/kikker3/db/migrate/001_create_users.rb
+END
+003_create_user_preferences.rb
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/repos/!svn/ver/341/trunk/kikker3/db/migrate/003_create_user_preferences.rb
+END
+002_create_user_keywords.rb
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/repos/!svn/ver/341/trunk/kikker3/db/migrate/002_create_user_keywords.rb
+END
+005_create_counters.rb
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/repos/!svn/ver/341/trunk/kikker3/db/migrate/005_create_counters.rb
+END

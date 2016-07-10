@@ -1,0 +1,525 @@
+require "rss/maker"
+require 'cgi'
+
+class KikkerController < ApplicationController
+  include KikkerHelper
+
+  def sorry
+
+  end
+
+  def index
+    @users = User.find_all()
+    @counter = incCounter("html")
+    @bunner_type = KikkerHelper::BUNNER_TYPE_OTHER
+    @share_user = session[:user_id]
+    @page_num = KikkerHelper::SHINOBI_TOP
+
+    if @share_user == nil
+      @isLogined = false
+    else
+      @isLogined = true
+    end
+  end
+
+  def enter
+    if request.get?
+      session[:user_id] = nil
+      render(:action => 'login_get')
+    elsif request.post?
+      filled_user_info = User.new(params[:user])
+      @user = filled_user_info.try_to_login
+      if @user
+        session[:user_id] = @user
+        render(:action => 'login_post')
+      else
+        flash[:notice] = "ユーザとパスワードの組み合わせが間違っています"
+        render(:action => 'login_get')
+      end
+    else
+      render(:action => 'index')
+    end
+  end
+
+  def logout
+      session[:user_id] = nil
+      @redirect_url = url_for(:action=> "index")
+  end
+
+  def regist
+    if request.get?
+      session[:user_id] = nil
+      render(:action => 'regist_get')
+    elsif request.post?
+      filled_user_info = User.new(params[:user])
+      filled_user_info.name = ""
+      filled_user_info.mail_address = ""
+      filled_user_info.age = 0
+      filled_user_info.regist_at = Time.now()
+
+      if  (User.find_by_nickname(filled_user_info.nickname) == nil) && filled_user_info.nickname && filled_user_info.password
+          filled_user_info.save()
+          filled_user_info.taste_entries << TasteEntry.new()
+
+          if @params[:regist_type] == "with_hatebu"
+            if @params[:hatebu_user_name]
+              hatebu_id = @params[:hatebu_user_name]
+              urls = Crawler.crawlHatebuUser(hatebu_id)
+              urls.each{|url|
+                Util.updateTaste("hatebu",filled_user_info.id,url[0])
+              }
+
+              filled_user_info.user_preference = UserPreference.new()
+              filled_user_info.user_preference.hatebu_name = hatebu_id
+              filled_user_info.user_preference.is_use_hatebu_learn = true
+              filled_user_info.user_preference.save()
+
+              @user = filled_user_info
+            else
+              @user = nil
+            end
+          else
+            #趣向情報をパースし保存
+            taste_id = filled_user_info.taste_entries[0].id
+            parsed_vec = parseFilledTaste(filled_user_info.taste_vector)
+            if parsed_vec
+              parsed_vec.each{|each_word_entry|
+                each_word_entry.taste_entry_id = taste_id
+                filled_user_info.taste_entries[0].user_keywords << each_word_entry
+              }
+              filled_user_info.save()
+
+              @user = filled_user_info
+            else
+              @user = nil
+            end
+          end
+      else
+          @user = nil
+      end
+      render(:action => 'regist_post')
+    else
+      render(:action => 'index')
+    end
+  end
+
+  def hatebu_html
+    @user_id = params[:user_id]
+    if @user_id
+      incCounter("html")
+      @search_result = getSuggestDataByUser(Kikker::DOC_TYPE_HATENA,@user_id)
+
+      @bunner_type = KikkerHelper::BUNNER_TYPE_HATEBU
+      @share_user = session[:user_id]
+
+      @page_num = KikkerHelper::SHINOBI_SUGGEST
+
+      @user = User.find_by_nickname(@user_id)
+      #すでにソートされているので問題ない(添え字の小さい方が値の大きなタグ)
+      @sorted_user_taste = @user.taste_entries[0].user_keywords
+
+      #ヘッダで使う変数
+      @title = "Hatebu Links Suggest to " + @user_id
+      @rss_url = url_for(:action => "hatebu_rss",:user_id => @user_id)
+      @rss_title = "Hatebu Links Suggest to " + @user_id
+    else
+      redirect_to :action=>index
+    end
+  end
+
+  def hatebu_rss
+    incCounter("rss")
+    user_id = params[:user_id]
+    rss = getSugestRSSByUser("hatebu",Kikker::DOC_TYPE_HATENA,user_id,KikkerHelper::ALIGN_HATEBU_RSS_LIMIT,"Hatebu Links Suggest to " + user_id)
+    render(:text => rss.to_s)
+  end
+
+  def news_html
+    @user_id = params[:user_id]
+    if @user_id
+      incCounter("html")
+      @search_result = getSuggestDataByUser(Kikker::DOC_TYPE_CEEK_NEWS,@user_id)
+
+      @bunner_type = KikkerHelper::BUNNER_TYPE_NEWS
+      @share_user = session[:user_id]
+
+      @page_num = KikkerHelper::SHINOBI_SUGGEST
+
+      @user = User.find_by_nickname(@user_id)
+      #すでにソートされているので問題ない(添え字の小さい方が値の大きなタグ)
+      @sorted_user_taste = @user.taste_entries[0].user_keywords
+
+      #ヘッダで使う変数
+      @title = "News Links Suggest to " + @user_id
+      @rss_url = url_for(:action => "news_rss",:user_id => @user_id)
+      @rss_title = "News Links Suggest to " + @user_id
+    else
+      redirect_to :action=>index
+    end
+  end
+
+  def news_rss
+    incCounter("rss")
+    user_id = params[:user_id]
+    rss = getSugestRSSByUser("news",Kikker::DOC_TYPE_CEEK_NEWS,user_id,KikkerHelper::ALIGN_NEWS_RSS_LIMIT,"News Links Suggest to " + user_id)
+    render(:text => rss.to_s)
+  end
+
+#  def video_html
+#    @user_id = params[:user_id]
+#    if @user_id
+#      incCounter("rss")
+#      @search_result = getSuggestDataByUser(Kikker::DOC_TYPE_YOUTUBE,@user_id)
+#
+#      @bunner_type = KikkerHelper::BUNNER_TYPE_YOUTUBE
+#
+#      @page_num = KikkerHelper::SHINOBI_SUGGEST
+#
+#      @user = User.find_by_nickname(@user_id)
+#
+#      #ヘッダで使う変数
+#      @title = "Video Suggest to " + @user_id
+#      @rss_url = url_for(:action => "video_rss",:user_id => @user_id)
+#      @rss_title = "Video Suggest to " + @user_id
+#    else
+#      redirect_to :action=>index
+#    end
+#  end
+#
+#  def video_rss
+#    incCounter("rss")
+#    user_id = params[:user_id]
+#    rss = getSugestRSSByUser("video",Kikker::DOC_TYPE_YOUTUBE,user_id,KikkerHelper::ALIGN_YOUTUBE_RSS_LIMIT,"Video Suggest to " + user_id,true)
+#    render(:text => rss.to_s)
+#  end
+
+  def learn
+    category = params[:category]
+    url = params[:url]
+    logined_user = session[:user_id]
+#    if url&&category&&logined_user
+#      #スレッドを生成
+#      p "start_thread"
+#      t = Thread.new(url,logined_user.id,category) do |inner_url,inner_user_id,inner_category|
+#        updateTaste(inner_category,inner_user_id,inner_url)
+#      end
+#    end
+    Util.updateTaste(category,logined_user.id,url)
+    @fast_redirect_url = url
+  end
+
+  def hatebu_keyword_html
+    @keyword = params[:keyword]
+    @user_id = nil
+    if @keyword
+      incCounter("html")
+      @search_result = Kikker.searchByKeyword(Kikker::DOC_TYPE_HATENA,@keyword)
+
+      @bunner_type = nil
+      @share_user = session[:user_id]
+
+      @page_num = KikkerHelper::SHINOBI_KEYWORD
+
+      #ヘッダで使う変数
+      @title = "Hatebu Entries which contain " + @keyword
+      @rss_url = url_for(:action => "hatebu_keyword_rss",:keyword => @keyword)
+      @rss_title = "Hatebu Entries which contain " + @keyword
+    else
+      redirect_to :action=>index
+    end
+  end
+
+  def hatebu_keyword_rss
+    incCounter("rss")
+    keyword = params[:keyword]
+    rss = getKeywordRSSByWord("hatebu",Kikker::DOC_TYPE_HATENA,keyword,KikkerHelper::ALIGN_HATEBU_RSS_LIMIT,"Hatebu Entries which contain " + keyword)
+    render(:text => rss.to_s)
+  end
+
+  def news_keyword_html
+    @keyword = params[:keyword]
+    @user_id = nil
+    if @keyword
+      incCounter("html")
+      @search_result = Kikker.searchByKeyword(Kikker::DOC_TYPE_CEEK_NEWS,@keyword)
+
+      @bunner_type = nil
+      @share_user = session[:user_id]
+
+      @page_num = KikkerHelper::SHINOBI_KEYWORD
+
+      #ヘッダで使う変数
+      @title = "News Entries which contain " + @keyword
+      @rss_url = url_for(:action => "news_keyword_rss",:keyword => @keyword)
+      @rss_title = "News Entries which contain " + @keyword
+    else
+      redirect_to :action=>index
+    end
+  end
+
+  def news_keyword_rss
+    incCounter("rss")
+    keyword = params[:keyword]
+    rss = getKeywordRSSByWord("news",Kikker::DOC_TYPE_CEEK_NEWS,keyword,KikkerHelper::ALIGN_NEWS_RSS_LIMIT,"News Entries which contain " + keyword)
+    render(:text => rss.to_s)
+  end
+
+  def edit
+    if request.get?
+      if authorized?
+        @user = User.find_by_id(session[:user_id].id)
+        @share_user = session[:user_id]
+        str = ""
+        @user.taste_vector = @user.taste_entries[0].user_keywords.each{|each_entry|
+            str += "," + each_entry.keyword + ":" + each_entry.tfidf_value.to_s
+        }
+        @user.taste_vector = str if str != ""
+        if @user.taste_vector != ""
+          @user.taste_vector = @user.taste_vector[1..@user.taste_vector.length]
+        end
+        render(:action => 'edit_get')
+      else
+        flash[:notice] = "登録情報を変更する前にログインしてください"
+        redirect_to :action => "enter"
+      end
+    elsif request.post?
+      if authorized?
+        if params[:user][:taste_vector]
+          to_update_user = User.find_by_id(session[:user_id].id)
+
+          if params[:hatebu_user_name] && (params[:hatebu_user_name]!= "")
+            unless to_update_user.user_preference
+              to_update_user.user_preference = UserPreference.new()
+            end
+            to_update_user.user_preference.hatebu_name = params[:hatebu_user_name]
+            to_update_user.user_preference.is_use_hatebu_learn = true
+            to_update_user.user_preference.save()
+          end
+
+          #趣向情報をパースし保存
+          parsed_vec = parseFilledTaste(params[:user][:taste_vector])
+          if parsed_vec
+            to_update_user.taste_entries[0].destroy()
+            to_update_user.taste_entries[0] = TasteEntry.new
+            taste_id = to_update_user.taste_entries[0].id
+
+            parsed_vec.each{|each_word_entry|
+              each_word_entry.taste_entry_id = taste_id
+              to_update_user.taste_entries[0].user_keywords << each_word_entry
+            }
+            to_update_user.update()
+
+            @user = to_update_user
+            render(:action => 'edit_post')
+          else
+            @user.taste_vector = params[:user][:taste_vector]
+            flash[:notice] = "入力内容が不正です"
+            render(:action => 'get_post')
+          end
+        else
+          flash[:notice] = "入力内容が不正です"
+          render(:action => 'get_post')
+        end
+      else
+        flash[:notice] = "登録情報を変更する前にログインしてください"
+        redirect_to :action => "enter"
+      end
+    else
+      render(:action => 'index')
+    end
+  end
+
+  def keyword_search
+    keyword = params[:keyword]
+    if params[:target] == "hatebu"
+      redirect_to(:action => "hatebu_keyword_html",:keyword => keyword)
+    elsif params[:target] == "news"
+      redirect_to(:action => "news_keyword_html",:keyword => keyword)
+    else
+      redirect_to(:action => "index")
+    end
+  end
+
+  #RSSの互換性を維持するためのアクション
+  def absorb_diff
+    if params[:type] == "rss"
+      params[:user_id] = params[:id]
+      if params[:category] == "hatebu"
+#        redirect_to(:action => "hatebu_rss",:user_id => params[:id])
+        hatebu_rss()
+      elsif params[:category] == "news"
+#        redirect_to(:action => "news_rss",:user_id => params[:id])
+        news_rss()
+#      elsif params[:category] == "youtube"
+##        redirect_to(:action => "video_rss",:user_id => params[:id])
+#        video_rss()
+      else
+        index()
+        render(:action => "index")
+      end
+    else
+      params[:user_id] = params[:id]
+      if params[:category] == "hatebu"
+#        redirect_to(:action => "hatebu_html",:user_id => params[:id])
+        hatebu_html()
+        render(:action => "hatebu_html",:user_id => params[:id])
+      elsif params[:category] == "news"
+#        redirect_to(:action => "news_html",:user_id => params[:id])
+        news_html()
+        render(:action => "news_html",:user_id => params[:id])
+      elsif params[:category] == "youtube"
+#        redirect_to(:action => "video_html",:user_id => params[:id])
+        video_html()
+        render(:action => "video_html",:user_id => params[:id])
+      else
+        index()
+        render(:action => "index")
+      end
+     end
+  end
+
+private
+
+#カウンタを増加させ,カウンタのエントリを返す
+def incCounter(type_str)
+  counter = Counter.find_by_id(1)
+  checkCounter(counter)
+  if type_str == "html"
+    counter.html_count += 1
+  elsif type_str == "rss"
+    counter.rss_count += 1
+  elsif type_str == "api"
+    counter.api_count += 1
+  end
+  counter.save()
+
+  return counter
+end
+
+#カウンタの日付チェック,引数はカウンタのエントリ
+def checkCounter(counter)
+  if(counter.target_date.day != Time.now.day)
+    counter.target_date = Time.now()
+    counter.html_count = 0
+    counter.rss_count = 0
+    counter.api_count = 0
+    counter.save()
+  end
+end
+
+#趣向文字列をパースして配列へ
+def parseFilledTaste(str)
+  begin
+    result_arr = Array.new
+    splited1 = str.split(",")
+    splited1.each{|each_word|
+      splited2 = each_word.split(":")
+      result_arr << UserKeyword.new(:taste_entry_id => 0,:keyword => splited2[0].downcase(),:tfidf_value => splited2[1].to_f)
+    }
+    return result_arr
+  rescue
+    return nil
+  end
+end
+
+#user_idはnickname
+def getSuggestDataByUser(doc_type,user_id)
+  user = User.find_by_nickname(user_id)
+  user_keyword_arr = Array.new
+  user_value_arr = Array.new
+  user.taste_entries[0].user_keywords.first(KikkerHelper::USER_TASTE_LIMIT).each{|each_entry|
+    user_keyword_arr << each_entry.keyword
+    user_value_arr << each_entry.tfidf_value
+  }
+  search_result = Kikker.search(doc_type,user_keyword_arr,user_value_arr)
+end
+
+#action_strはhatebuとかnewsとかvideoとか
+def getSugestRSSByUser(action_str,doc_type,user_id,arrange_limit,title,isWithImage = false)
+RSS::Maker.make("1.0") do |maker|
+                        maker.channel.about = url_for(:action => action_str + "_rss",:user_id => user_id)
+                        maker.channel.title = title
+                        maker.channel.description = title
+                        maker.channel.link = url_for(:action => action_str + "_html",:user_id => user_id)
+                        add_notice(maker)
+
+                        if User.find_by_nickname(user_id)
+                          search_result = getSuggestDataByUser(doc_type,user_id)
+                          search_result["titles"].each_index{|index|
+                            break if index > arrange_limit
+
+                            item = maker.items.new_item
+                            item.link = search_result["urls"][index]
+                            item.title = search_result["titles"][index]
+                            item.date = Time.parse(search_result["crawled_dates"][index])
+                            keyword_str = "キーワード: "
+                            search_result["tags"][index].each_index{|tag_index|
+                                  break if tag_index > KikkerHelper::ALIGN_KEYWORD_LIMIT
+                                  keyword_str += search_result["tags"][index][tag_index][0] + " "
+                            }
+                            item.description =  search_result["eval_points"][index].to_i.to_s + "point " + search_result["view_counts"][index].to_s + "user " + keyword_str
+                            item.description += "<br><a href=\"" + search_result["urls"][index] + "\" target=\"_blank\"><img src=\"" + search_result["categories"][index] +  "\"/></a>" if isWithImage
+                            item.description += "<br><br><a href=\"" + url_for(:action => "learn",:url => search_result["urls"][index],:category => action_str) + "\">学習用リンク</a>"
+                          }
+                          item = maker.items.new_item
+                          item.link = url_for(:action => action_str + "_html",:user_id => user_id)
+                          item.title = "Taste of " + user_id
+                          item.date = Time.now()
+                          user_taste_str = ""
+                          user = User.find_by_nickname(user_id)
+                          user.taste_entries[0].user_keywords.each_index{|taste_index|
+                            break if taste_index > KikkerHelper::ALIGN_USER_KEYWORDS
+                            user_taste_str += (taste_index + 1).to_s + "位:" + user.taste_entries[0].user_keywords[taste_index].keyword + ":" + user.taste_entries[0].user_keywords[taste_index].tfidf_value.to_s + "\r\n"
+                          }
+                          item.description = user_taste_str
+                        else
+                          item = maker.items.new_item
+                          item.link = url_for(:action => 'regist')
+                          item.title = "申し訳ありません"
+                          item.date = Time.now()
+                          item.description = 'あなたのユーザアカウントが消えてしまった可能性が高いです。大変申し訳ありませんが、<a href="' + url_for(:action => 'regist') + '">登録ページ</a>で再登録をお願いいたします。'
+                        end
+                      end
+end
+
+#action_strはhatebuとかnewsとかvideoとか
+def getKeywordRSSByWord(action_str,doc_type,keyword,arrange_limit,title)
+RSS::Maker.make("1.0") do |maker|
+                        maker.channel.about = url_for(:action => action_str + "_keyword_rss",:keyword => keyword)
+                        maker.channel.title = title
+                        maker.channel.description = title
+                        maker.channel.link = url_for(:action => action_str + "_keyword_html",:keyword => keyword)
+                        add_notice(maker)
+                        search_result = Kikker.searchByKeyword(doc_type,keyword)
+                        search_result["titles"].each_index{|index|
+                          break if index > arrange_limit
+
+                          item = maker.items.new_item
+                          item.link = search_result["urls"][index]
+                          item.title = search_result["titles"][index]
+                          item.date = Time.parse(search_result["crawled_dates"][index])
+                          keyword_str = "キーワード: "
+                          search_result["tags"][index].each_index{|tag_index|
+                                break if tag_index > KikkerHelper::ALIGN_KEYWORD_LIMIT
+                                keyword_str += search_result["tags"][index][tag_index][0] + " "
+                          }
+                          item.description = ""
+                          item.description +=  search_result["view_counts"][index].to_s + "user " if search_result["view_counts"][index] && search_result["view_counts"][index] != 0
+                          item.description += keyword_str
+                          item.description += "<br><br><a href=\"" + url_for(:action => "learn",:url => search_result["urls"][index],:category => action_str) + "\">学習用リンク</a>"
+                        }
+                      end
+end
+
+def add_notice(maker)
+  if(description = get_notice_rss_description())
+    item = maker.items.new_item
+    item.link = 'http://d.hatena.ne.jp/kanbayashi/'
+    item.title = '開発者からのお知らせ'
+    item.date = Time.now()
+    item.description = ""
+    item.description = description
+  end
+end
+
+end

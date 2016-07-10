@@ -1,0 +1,14 @@
+package jp.ryo.informationPump.server.rpc;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.XmlRpcHandler;
+import org.apache.xmlrpc.server.XmlRpcHandlerMapping;
+import org.apache.xmlrpc.server.XmlRpcNoSuchHandlerException;
+
+public class KikkerHahdllerMapping implements XmlRpcHandlerMapping {
+
+    public XmlRpcHandler getHandler(String arg0) throws XmlRpcNoSuchHandlerException, XmlRpcException {
+        return new KikkerAPIHandller();
+    }
+
+}

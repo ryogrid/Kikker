@@ -1,0 +1,11 @@
+<DIV id=sidemenu>
+ 		<DIV id=searcharea>
+ 		 <H3>キーワード検索</H3>
+ 		 <%= start_form_tag({:action => :keyword_search },{:style => "DISPLAY: inline",:method => "post"})%>
+ 		  <%=text_field_tag :keyword,nil,{:class => "sidesearch"}%>
+   <%=submit_tag " 検索 ",{:class => "sidesearch",:name => ".submit"}%>
+   <%=radio_button_tag :is_hatebu,"hatebu",true,{:name => :target}%><A>はてブ</A>
+   <%=radio_button_tag :is_news,"news",false,{:name => :target}%><A>News</A>
+		  <%=end_form_tag%>
+		 </DIV>
+</DIV>

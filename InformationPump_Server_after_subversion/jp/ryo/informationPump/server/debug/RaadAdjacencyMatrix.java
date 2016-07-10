@@ -1,0 +1,18 @@
+package jp.ryo.informationPump.server.debug;
+
+import jp.ryo.informationPump.server.persistent.PersistentManager;
+import jp.ryo.informationPump.server.util.SparseMatrix;
+
+public class RaadAdjacencyMatrix {
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        PersistentManager p_manager = PersistentManager.getInstance();
+        
+        SparseMatrix adjacency_matrix = (SparseMatrix)p_manager.readObjectFromFile(PersistentManager.COLLAB_DATA_PATH + "adjacency_matrix.persistent");
+        System.out.println();
+    }
+
+}

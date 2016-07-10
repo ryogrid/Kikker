@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/repos/!svn/ver/422/trunk/InformationPump_Server/jp/ryo/informationPump/server/data
+END
+UserProfile.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/repos/!svn/ver/98/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/UserProfile.java
+END
+SortBoxForWebData.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/repos/!svn/ver/84/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/SortBoxForWebData.java
+END
+DocumentEntry.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/repos/!svn/ver/179/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/DocumentEntry.java
+END
+UserSearchResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/repos/!svn/ver/90/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/UserSearchResult.java
+END
+DocumentSearchResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/repos/!svn/ver/179/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/DocumentSearchResult.java
+END
+SearchResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/repos/!svn/ver/84/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/SearchResult.java
+END
+StoreBoxForWebData.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/repos/!svn/ver/84/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/StoreBoxForWebData.java
+END
+RSSGetResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/repos/!svn/ver/179/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/RSSGetResult.java
+END
+WebData.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/repos/!svn/ver/83/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/WebData.java
+END
+DoGetResultWithCharset.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/repos/!svn/ver/91/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/DoGetResultWithCharset.java
+END
+CollabSortBox.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/repos/!svn/ver/386/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/CollabSortBox.java
+END
+ClusteringResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/repos/!svn/ver/422/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/ClusteringResult.java
+END
+CeekJPNewsEntry.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/repos/!svn/ver/179/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/CeekJPNewsEntry.java
+END
+DummyObject.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/repos/!svn/ver/88/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/DummyObject.java
+END
+KeyAndDoubleTFIDF.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/repos/!svn/ver/83/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/KeyAndDoubleTFIDF.java
+END
+SortBoxForUserProfile.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/repos/!svn/ver/90/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/SortBoxForUserProfile.java
+END
+SortBoxForDocumentEntry.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/repos/!svn/ver/179/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/SortBoxForDocumentEntry.java
+END
+CookieEntry.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/repos/!svn/ver/284/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/CookieEntry.java
+END
+StoreBoxForDocumentEntry.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/repos/!svn/ver/179/trunk/InformationPump_Server/jp/ryo/informationPump/server/data/StoreBoxForDocumentEntry.java
+END

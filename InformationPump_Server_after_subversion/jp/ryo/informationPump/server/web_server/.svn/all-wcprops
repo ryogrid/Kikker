@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/repos/!svn/ver/350/trunk/InformationPump_Server/jp/ryo/informationPump/server/web_server
+END
+CookieManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/repos/!svn/ver/283/trunk/InformationPump_Server/jp/ryo/informationPump/server/web_server/CookieManager.java
+END
+WebServer.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/repos/!svn/ver/350/trunk/InformationPump_Server/jp/ryo/informationPump/server/web_server/WebServer.java
+END
+HttpRequestProcessor.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/repos/!svn/ver/347/trunk/InformationPump_Server/jp/ryo/informationPump/server/web_server/HttpRequestProcessor.java
+END

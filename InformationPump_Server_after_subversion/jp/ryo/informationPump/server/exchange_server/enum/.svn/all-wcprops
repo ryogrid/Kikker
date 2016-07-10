@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/repos/!svn/ver/75/trunk/InformationPump_Server/jp/ryo/informationPump/server/exchange_server/enum
+END
+ResponseCode.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/repos/!svn/ver/75/trunk/InformationPump_Server/jp/ryo/informationPump/server/exchange_server/enum/ResponseCode.java
+END
+OperationCode.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/repos/!svn/ver/75/trunk/InformationPump_Server/jp/ryo/informationPump/server/exchange_server/enum/OperationCode.java
+END

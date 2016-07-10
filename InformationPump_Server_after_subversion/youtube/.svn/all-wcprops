@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/repos/!svn/ver/250/trunk/InformationPump_Server/youtube
+END
+YoutubeVideoInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/repos/!svn/ver/250/trunk/InformationPump_Server/youtube/YoutubeVideoInfo.java
+END
+APITester.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/repos/!svn/ver/250/trunk/InformationPump_Server/youtube/APITester.java
+END
+CommentEntry.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/repos/!svn/ver/250/trunk/InformationPump_Server/youtube/CommentEntry.java
+END
+YoutubeAPITest.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/repos/!svn/ver/250/trunk/InformationPump_Server/youtube/YoutubeAPITest.java
+END
+YoutubeVideoDetail.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/repos/!svn/ver/250/trunk/InformationPump_Server/youtube/YoutubeVideoDetail.java
+END
+YoutubeHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/repos/!svn/ver/250/trunk/InformationPump_Server/youtube/YoutubeHelper.java
+END
+YoutubeUserProfile.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/repos/!svn/ver/250/trunk/InformationPump_Server/youtube/YoutubeUserProfile.java
+END

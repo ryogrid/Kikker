@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/repos/!svn/ver/485/trunk/InformationPump_Server/jp/ryo/informationPump/server/db/abstractor
+END
+DBCacheManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/repos/!svn/ver/458/trunk/InformationPump_Server/jp/ryo/informationPump/server/db/abstractor/DBCacheManager.java
+END
+CrawledDataDBAbstractor.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/repos/!svn/ver/477/trunk/InformationPump_Server/jp/ryo/informationPump/server/db/abstractor/CrawledDataDBAbstractor.java
+END
+UserDBAbstractor.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/repos/!svn/ver/477/trunk/InformationPump_Server/jp/ryo/informationPump/server/db/abstractor/UserDBAbstractor.java
+END
+InvertedMap.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/repos/!svn/ver/485/trunk/InformationPump_Server/jp/ryo/informationPump/server/db/abstractor/InvertedMap.java
+END

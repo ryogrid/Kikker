@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/repos/!svn/ver/495/trunk/InformationPump_Server/jp/ryo/informationPump/server
+END
+ViewServer.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/repos/!svn/ver/522/trunk/InformationPump_Server/jp/ryo/informationPump/server/ViewServer.java
+END
+KikkerConfigration.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/repos/!svn/ver/320/trunk/InformationPump_Server/jp/ryo/informationPump/server/KikkerConfigration.java
+END
+CrawlerServer.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/repos/!svn/ver/430/trunk/InformationPump_Server/jp/ryo/informationPump/server/CrawlerServer.java
+END
+WebMetadataAdmin.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/repos/!svn/ver/98/trunk/InformationPump_Server/jp/ryo/informationPump/server/WebMetadataAdmin.java
+END
+UserAdmin.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/repos/!svn/ver/98/trunk/InformationPump_Server/jp/ryo/informationPump/server/UserAdmin.java
+END
+FileWebMetadataAdmin.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/repos/!svn/ver/98/trunk/InformationPump_Server/jp/ryo/informationPump/server/FileWebMetadataAdmin.java
+END
+FileUserAdmin.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/repos/!svn/ver/98/trunk/InformationPump_Server/jp/ryo/informationPump/server/FileUserAdmin.java
+END
+ServerStarter.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/repos/!svn/ver/517/trunk/InformationPump_Server/jp/ryo/informationPump/server/ServerStarter.java
+END
+DBWebMetadataAdmin.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/repos/!svn/ver/98/trunk/InformationPump_Server/jp/ryo/informationPump/server/DBWebMetadataAdmin.java
+END
+DBUserAdmin.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/repos/!svn/ver/313/trunk/InformationPump_Server/jp/ryo/informationPump/server/DBUserAdmin.java
+END

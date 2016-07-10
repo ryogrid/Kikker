@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HYPERDBFUNCTIONS>
+	<HYPERDBCLASS name="WebDataDBManager">
+		<SELECTMETHOD name="selectDocumentsWithKeyAndDate" select="*" orderBy="">
+			<FROM>WebDocumentEntry</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocumentEntry.url in (select WebDocument_keyword_table.doc_address from WebDocument_keyword_table where WebDocument_keyword_table.keyword = '$keyword')" />
+					<CONDITION script="WebDocumentEntry.crawledDate &gt;= '$date'" />
+					<CONDITION script="WebDocumentEntry.doc_type = '$doc_type'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<SELECTMETHOD name="selectEntriesBeforeADate" select="*" orderBy="">
+			<FROM>WebDocumentEntry</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocumentEntry.crawledDate &lt; '$date'" />
+					<CONDITION script="WebDocumentEntry.doc_type = '$doc_type'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<DELETEMETHOD name="deleteEntriesBeforeADate" table="WebDocumentEntry">
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocumentEntry.crawledDate &lt; '$date'" />
+					<CONDITION script="WebDocumentEntry.doc_type = '$doc_type'" />
+				</AND>
+			</CONDITIONS>
+		</DELETEMETHOD>
+		<SELECTMETHOD name="selectEntriesAfterADate" select="*" orderBy="">
+			<FROM>WebDocumentEntry</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocumentEntry.crawledDate &gt;= '$date'" />
+					<CONDITION script="WebDocumentEntry.doc_type = '$doc_type'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<SELECTMETHOD name="selectDocumentsWithKey" select="*" orderBy="">
+			<FROM>WebDocumentEntry</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocumentEntry.url in (select WebDocument_keyword_table.doc_address from WebDocument_keyword_table where WebDocument_keyword_table.keyword = '$keyword')" />
+					<CONDITION script="WebDocumentEntry.doc_type = '$doc_type'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<INSERTMETHOD name="insertNewTag" table="WebDocument_tag_table">
+			<VALUES>
+				<CONDITION script="doc_address = '$doc_address'" />
+				<CONDITION script="tag = '$tag'" />
+				<CONDITION script="tfidf_value = '$tfidf_value'" />
+			</VALUES>
+		</INSERTMETHOD>
+		<INSERTMETHOD name="insertNewKeyword" table="WebDocument_keyword_table">
+			<VALUES>
+				<CONDITION script="doc_address = '$doc_address'" />
+				<CONDITION script="keyword = '$keyword'" />
+				<CONDITION script="tfidf_value = '$tfidf_value'" />
+			</VALUES>
+		</INSERTMETHOD>
+		<SELECTMETHOD name="selectTagTableWithAddress" select="*" orderBy="WebDocument_tag_table.tfidf_value">
+			<FROM>WebDocument_tag_table</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocument_tag_table.doc_address = '$address'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<SELECTMETHOD name="selectKeyTableWithAddress" select="*" orderBy="WebDocument_keyword_table.tfidf_value">
+			<FROM>WebDocument_keyword_table</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocument_keyword_table.doc_address = '$address'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<DELETEMETHOD name="deleteTagWithAddress" table="WebDocument_tag_table">
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocument_tag_table.doc_address = '$address'" />
+				</AND>
+			</CONDITIONS>
+		</DELETEMETHOD>
+		<DELETEMETHOD name="deleteKeywordsWithAddress" table="WebDocument_keyword_table">
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocument_keyword_table.doc_address = '$address'" />
+				</AND>
+			</CONDITIONS>
+		</DELETEMETHOD>
+		<DELETEMETHOD name="deleteTagAll" table="WebDocument_tag_table">
+			<CONDITIONS />
+		</DELETEMETHOD>
+		<DELETEMETHOD name="deleteKeywordAll" table="WebDocument_keyword_table">
+			<CONDITIONS />
+		</DELETEMETHOD>
+		<DELETEMETHOD name="deleteDocumentAll" table="WebDocumentEntry">
+			<CONDITIONS />
+		</DELETEMETHOD>
+		<SELECTMETHOD name="selectAll" select="*" orderBy="">
+			<FROM>WebDocumentEntry</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocumentEntry.doc_type = '$doc_type'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<INSERTMETHOD name="insertNewEntry" table="WebDocumentEntry">
+			<VALUES>
+				<CONDITION script="doc_type = '$doc_type'" />
+				<CONDITION script="title = '$title'" />
+				<CONDITION script="url = '$url'" />
+				<CONDITION script="bookmark_count = '$bookmark_count'" />
+				<CONDITION script="view_user_count = '$view_user_count'" />
+				<CONDITION script="crawledDate = '$crawledDate'" />
+				<CONDITION script="category = '$category'" />
+				<CONDITION script="Description = '$Description'" />
+				<CONDITION script="isAnalyzed = '$isAnalyzed'" />
+			</VALUES>
+		</INSERTMETHOD>
+		<DELETEMETHOD name="deleteEntryWithAddress" table="WebDocumentEntry">
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocumentEntry.url = '$address'" />
+					<CONDITION script="WebDocumentEntry.doc_type = '$doc_type'" />
+				</AND>
+			</CONDITIONS>
+		</DELETEMETHOD>
+		<SELECTMETHOD name="selectWithAddress" select="*" orderBy="">
+			<FROM>WebDocumentEntry</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="WebDocumentEntry.url = '$address'" />
+					<CONDITION script="WebDocumentEntry.doc_type = '$doc_type'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+	</HYPERDBCLASS>
+	<HYPERDBCLASS name="UserDBManager">
+		<DELETEMETHOD name="deleteUserViewedURLWithURL" table="UserViewedEntries">
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="UserViewedEntries.doc_url = '$url'" />
+				</AND>
+			</CONDITIONS>
+		</DELETEMETHOD>
+		<DELETEMETHOD name="deleteUserViewedURLWithUser" table="UserViewedEntries">
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="UserViewedEntries.id = '$id'" />
+				</AND>
+			</CONDITIONS>
+		</DELETEMETHOD>
+		<DELETEMETHOD name="deleteUserViewedURLAll" table="UserViewedEntries">
+			<CONDITIONS />
+		</DELETEMETHOD>
+		<INSERTMETHOD name="insertUserViewedURL" table="UserViewedEntries">
+			<VALUES>
+				<CONDITION script="id = '$id'" />
+				<CONDITION script="doc_url = '$doc_url'" />
+			</VALUES>
+		</INSERTMETHOD>
+		<SELECTMETHOD name="selectUserViewedURL" select="*" orderBy="">
+			<FROM>UserViewedEntries</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="UserViewedEntries.id = '$id'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<INSERTMETHOD name="insertNewKeyword" table="User_keyword_table">
+			<VALUES>
+				<CONDITION script="user_id = '$user_id'" />
+				<CONDITION script="keyword = '$keyword'" />
+				<CONDITION script="tfidf_value = '$tfidf_value'" />
+			</VALUES>
+		</INSERTMETHOD>
+		<SELECTMETHOD name="selectKeyTableWithID" select="*" orderBy="User_keyword_table.tfidf_value">
+			<FROM>User_keyword_table</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="User_keyword_table.user_id = '$id'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<DELETEMETHOD name="deleteKeywordsWithID" table="User_keyword_table">
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="User_keyword_table.user_id= '$id'" />
+				</AND>
+			</CONDITIONS>
+		</DELETEMETHOD>
+		<DELETEMETHOD name="deleteKeywordAll" table="User_keyword_table">
+			<CONDITIONS />
+		</DELETEMETHOD>
+		<DELETEMETHOD name="deleteUserAll" table="UserEntry">
+			<CONDITIONS />
+		</DELETEMETHOD>
+		<SELECTMETHOD name="selectAll" select="*" orderBy="">
+			<FROM>UserEntry</FROM>
+			<CONDITIONS />
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<INSERTMETHOD name="insertNewUser" table="UserEntry">
+			<VALUES>
+				<CONDITION script="id = '$id'" />
+				<CONDITION script="password = '$password'" />
+				<CONDITION script="name = '$name'" />
+				<CONDITION script="mail_address = '$mail_address'" />
+				<CONDITION script="age = '$age'" />
+				<CONDITION script="regist_date = '$regist_date'" />
+				<CONDITION script="cache_date = '$cache_date'" />
+			</VALUES>
+		</INSERTMETHOD>
+		<SELECTMETHOD name="selectWithID" select="*" orderBy="">
+			<FROM>UserEntry</FROM>
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="UserEntry.id = '$id'" />
+				</AND>
+			</CONDITIONS>
+			<GROUPBY columns="">
+				<CONDITIONS />
+			</GROUPBY>
+			<COMMENT />
+		</SELECTMETHOD>
+		<DELETEMETHOD name="deleteUserWithID" table="UserEntry">
+			<CONDITIONS>
+				<AND>
+					<CONDITION script="UserEntry.id = '$id'" />
+				</AND>
+			</CONDITIONS>
+		</DELETEMETHOD>
+	</HYPERDBCLASS>
+</HYPERDBFUNCTIONS>
+

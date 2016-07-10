@@ -1,0 +1,65 @@
+package jp.ryo.informationPump.server.util;
+
+import java.io.Serializable;
+import java.util.Calendar;
+
+public class CounterManager implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private static CounterManager instance;
+    
+    private int htmlViewCount;
+    private int rssViewCount;
+    private int apiUsedCount;
+    private Calendar target_date = Calendar.getInstance();
+    
+    public int getHtmlViewCount() {
+        return htmlViewCount;
+    }
+
+    public int getRssViewCount() {
+        return rssViewCount;
+    }
+    
+    public int getAPIUsedCount(){
+        return apiUsedCount;
+    }
+
+    public void incHTMLCount(){
+        checkDateChange();
+        htmlViewCount++;
+    }
+    
+    public void incRSSCount(){
+        checkDateChange();
+        rssViewCount++;
+    }
+    
+    public void incAPIUsedCount(){
+        checkDateChange();
+        apiUsedCount++;
+    }
+    
+    private void checkDateChange(){
+        Calendar now = Calendar.getInstance();
+        //“ú‚ª•Ï‚í‚Á‚Ä‚¢‚½‚ç
+        if(target_date.get(Calendar.DAY_OF_MONTH)!=now.get(Calendar.DAY_OF_MONTH)){        
+            htmlViewCount = 0;
+            rssViewCount = 0;
+            apiUsedCount = 0;
+            target_date = now;
+        }
+    }
+    
+    public synchronized static CounterManager getInstance(){
+        if(instance==null){
+            instance = new CounterManager();
+            return instance;
+        }else{
+            return instance;
+        }
+    }
+    
+    public static synchronized void setInstanceFromFile(CounterManager manager){
+        CounterManager.instance = manager;
+    }
+}

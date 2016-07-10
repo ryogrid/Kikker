@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/repos/!svn/ver/341/trunk/kikker3/app/models
+END
+user.rb
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/repos/!svn/ver/341/trunk/kikker3/app/models/user.rb
+END
+counter.rb
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/repos/!svn/ver/341/trunk/kikker3/app/models/counter.rb
+END
+taste_entry.rb
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/repos/!svn/ver/341/trunk/kikker3/app/models/taste_entry.rb
+END
+user_keyword.rb
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/repos/!svn/ver/341/trunk/kikker3/app/models/user_keyword.rb
+END
+user_preference.rb
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/repos/!svn/ver/341/trunk/kikker3/app/models/user_preference.rb
+END

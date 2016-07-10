@@ -1,0 +1,17 @@
+package jp.ryo.informationPump.server.debug;
+
+import java.util.HashMap;
+
+import jp.ryo.informationPump.server.crawler.YoutubeCrawlerTask;
+
+public class YoutubeCrawlerTest {
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        HashMap result = YoutubeCrawlerTask.crawl(1);
+        System.out.println(result);
+    }
+
+}

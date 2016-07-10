@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HYPERDBCONFIG>
+	<TYPE name="VARCHAR(16)" 	dbType="VARCHAR(16)" 	javaType="java.lang.String" />
+	<TYPE name="VARCHAR(128)" 	dbType="VARCHAR(128)" 	javaType="java.lang.String" />
+	<TYPE name="VARCHAR(255)" 	dbType="VARCHAR(255)"	javaType="java.lang.String" />
+	<TYPE name="TEXT" 			dbType="TEXT" 			javaType="java.lang.String" />
+	<TYPE name="TIMESTAMP" 		dbType="TIMESTAMP" 		javaType="java.sql.Timestamp" />
+	<TYPE name="DATE"			dbType="DATE" 			javaType="java.sql.Date" />
+	<TYPE name="Integer"		dbType="INT" 			javaType="java.lang.Integer" />
+	<TYPE name="REAL"			dbType="REAL" 			javaType="java.lang.Double" />
+	<TYPE name="BOOL"			dbType="BOOL" 			javaType="java.lang.Boolean" />
+</HYPERDBCONFIG>

@@ -1,0 +1,27 @@
+package jp.ryo.informationPump.server;
+
+import java.io.Serializable;
+import java.util.HashMap;
+
+import jp.ryo.informationPump.server.data.UserProfile;
+import jp.ryo.informationPump.server.data.UserSearchResult;
+
+public interface UserAdmin extends Serializable {
+    
+    public abstract UserProfile getUser(String id);
+
+    public abstract UserProfile[] getAllUser();
+
+    //返り値がtrueだと成功、そうじゃない場合は失敗
+    public abstract boolean createNewUser(UserProfile profile);
+
+    public abstract void addReadPage(String user_name, String page_name);
+
+    public abstract void addReadPages(String user_name, String page_names[]);
+
+    public abstract void updateTasete(String user_name, HashMap taste_vector);
+
+    //  趣向のベクターを渡して似ているドキュメントの配列と類似度を持ったSearchResultを得る
+    public abstract UserSearchResult search(HashMap taste_vector);
+
+}

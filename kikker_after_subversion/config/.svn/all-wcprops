@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/repos/!svn/ver/401/trunk/kikker3/config
+END
+routes.rb
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/repos/!svn/ver/401/trunk/kikker3/config/routes.rb
+END
+database.yml
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/repos/!svn/ver/341/trunk/kikker3/config/database.yml
+END
+boot.rb
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/repos/!svn/ver/341/trunk/kikker3/config/boot.rb
+END
+environment.rb
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/repos/!svn/ver/343/trunk/kikker3/config/environment.rb
+END

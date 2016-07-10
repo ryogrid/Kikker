@@ -1,0 +1,19 @@
+<%=render :partial => 'bunner'%>
+<%=render :partial => 'shinobi'%>
+
+<%= link_to image_tag('http://ryogrid.myhome.cx/distribute/rss_icon.gif'),:action => "news_rss",:user_id => @user.nickname%>
+
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_NATIONAL}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_POLITICS}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_WORLD}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_CHINA}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_BUSINESS}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_IT}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_SPORTS}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_ENTERTAINMENT}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_SCIENCE}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_OBITUARIES}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_LOCAL}%>
+<%=render :partial => 'ceek_news_each_category',:locals => {:category => KikkerHelper::CEEK_NEWS_ETC}%>
+
+<%=render :partial => 'analytics'%>

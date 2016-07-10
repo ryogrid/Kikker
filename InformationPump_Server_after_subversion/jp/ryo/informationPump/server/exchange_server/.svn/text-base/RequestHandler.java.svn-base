@@ -1,0 +1,208 @@
+/*
+ * 作成日: 2006/02/07
+ *
+ * この生成されたコメントの挿入されるテンプレートを変更するため
+ * ウィンドウ > 設定 > Java > コード生成 > コードとコメント
+ */
+package jp.ryo.informationPump.server.exchange_server;
+
+import java.io.*;
+import java.net.Socket;
+import java.util.*;
+
+import jp.ryo.informationPump.server.*;
+import jp.ryo.informationPump.server.data.*;
+import jp.ryo.informationPump.server.exchange_server.enum.OperationCode;
+import jp.ryo.informationPump.server.exchange_server.enum.ResponseCode;
+import jp.ryo.informationPump.server.persistent.PersistentManager;
+
+public class RequestHandler implements Runnable {
+    private Socket socket;
+//    private DataInputStream din;
+//    private DataOutputStream dout;
+    private ObjectInputStream oin;
+    private ObjectOutputStream oout;
+    
+    public RequestHandler(Socket sockets) throws IOException{
+        this.socket = sockets;
+        this.oin = new ObjectInputStream(this.socket.getInputStream());
+        this.oout = new ObjectOutputStream(this.socket.getOutputStream());
+    }
+    
+    public void run(){
+        try {
+            System.out.println("Connection Handler Start!!");
+            int operation_code = oin.readInt();
+            System.out.println("Operation " + OperationCode.getOperationName(operation_code) + " recieved from" + socket.getRemoteSocketAddress());
+            
+            if(operation_code == OperationCode.CREATE_NEW_USER){
+                createNewUserOperation();
+            }else if(operation_code == OperationCode.ADD_A_PAGE){
+                addAPageOperation();
+            }else if(operation_code == OperationCode.ADD_SOME_PAGE){
+                addSomePageOperation();
+            }else if(operation_code == OperationCode.UPDATE_USER_TASTE){
+                updateUserTasteOperation();
+            }
+            PersistentManager pmanager = PersistentManager.getInstance();
+//            pmanager.escapeObjectsToFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+//                din.close();
+//                dout.close();
+                oout.close();
+                oin.close();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void updateUserTasteOperation() throws IOException, ClassNotFoundException {
+        String id = (String)oin.readObject();
+        String password = (String)oin.readObject();
+        
+        UserAdmin uadmin = DBUserAdmin.getInstance();
+        UserProfile profile = uadmin.getUser(id);
+        //認証成功
+        if((profile!=null)&&(profile.getPassword().equals(password))){
+            int key_count = oin.readInt();  //この後読むべきデータの個数
+            HashMap keyword_vector = new HashMap();
+            for(int i=0;i<key_count;i++){
+                String keyword = (String)oin.readObject();
+                double weight = oin.readDouble();
+                Double weight_Double = Double.valueOf(String.valueOf(weight));
+                keyword_vector.put(keyword,weight_Double);
+            }
+
+            uadmin.updateTasete(id,keyword_vector);
+            debugOutput(keyword_vector);
+            
+            oout.writeInt(ResponseCode.SUCCESS);
+            oout.writeObject(ResponseCode.getResponceName(ResponseCode.SUCCESS));
+        }else{//認証失敗
+            oout.writeInt(ResponseCode.SUCCESS);
+            oout.writeObject("You are not authenticated. Please regist or check your password");
+        }
+        oout.flush();
+    }
+
+    private void debugOutput(HashMap keyword_vector) {
+        WebMetadataAdmin wadmin = FileWebMetadataAdmin.getInstance();
+        
+        System.out.println("-------------------------------------test Search Start!!-----------------------------------------");
+        long start = System.currentTimeMillis();
+        SearchResult mayLikeDocuments = wadmin.search(keyword_vector);
+        long end = System.currentTimeMillis();
+        System.out.println("=====================================test Search End("+ (end -start) + "m Sec)=============================================");
+        
+        System.out.println("----------------------------------------suggest!!-----------------------------------------------");
+        for(int i=0;i<mayLikeDocuments.results.length;i++){
+            System.out.println(i + ":" + mayLikeDocuments.results[i].data);
+        }
+        System.out.println("----------------------------------------end of suggest------------------------------------------");
+    }
+
+    private void addSomePageOperation() throws IOException, ClassNotFoundException {
+        String id = (String)oin.readObject();
+        String password = (String)oin.readObject();
+        
+        UserAdmin uadmin = DBUserAdmin.getInstance();
+        UserProfile profile = uadmin.getUser(id);
+        //認証成功
+        if((profile!=null)&&(profile.getPassword().equals(password))){
+            int page_count = oin.readInt();  //この後読むべきWebデータの個数
+            WebMetadataAdmin wadmin = FileWebMetadataAdmin.getInstance();
+            
+            int index=0;
+            String page_name_arr[] = new String[page_count];
+            //ページの個数分ループ
+            for(int i=0;i<page_count;i++){
+                String page_name = (String)oin.readObject();
+                page_name_arr[index++]= page_name;
+                int key_count = oin.readInt();
+                
+                HashMap keyword_vector = new HashMap();
+                //キーワードの個数分ループ
+                for(int j=0;j<key_count;j++){
+                    String keyword = (String)oin.readObject();
+                    double weight = oin.readDouble();
+                    Double weight_Double = Double.valueOf(String.valueOf(weight));
+                    keyword_vector.put(keyword,weight_Double);
+                }
+                wadmin.addNewPage(new WebData(page_name,keyword_vector));
+            }
+            uadmin.addReadPages(id,page_name_arr);
+            
+            System.out.println(page_count + "page added!!");
+            oout.writeInt(ResponseCode.SUCCESS);
+            oout.writeObject(ResponseCode.getResponceName(ResponseCode.SUCCESS));
+        }else{//認証失敗
+            oout.writeInt(ResponseCode.SUCCESS);
+            oout.writeObject("You are not authenticated. Please regist or check your password");
+        }
+        oout.flush();
+    }
+
+    private void addAPageOperation() throws IOException, ClassNotFoundException {
+        String id = (String)oin.readObject();
+        String password = (String)oin.readObject();
+        String page_name = (String)oin.readObject();
+        
+        UserAdmin uadmin = DBUserAdmin.getInstance();
+        UserProfile profile = uadmin.getUser(id);
+        //認証成功
+        if((profile!=null)&&(profile.getPassword().equals(password))){
+            int count = oin.readInt();  //この後読むべきデータの個数
+            HashMap keyword_vector = new HashMap();
+            for(int i=0;i<count;i++){
+                String keyword = (String)oin.readObject();
+                double weight = oin.readDouble();
+                Double weight_Double = Double.valueOf(String.valueOf(weight));
+                keyword_vector.put(keyword,weight_Double);
+            }
+            
+            WebMetadataAdmin admin = FileWebMetadataAdmin.getInstance();
+            admin.addNewPage(new WebData(page_name,keyword_vector));
+            uadmin.addReadPage(id,page_name);
+            
+            oout.writeInt(ResponseCode.SUCCESS);
+            oout.writeObject(ResponseCode.getResponceName(ResponseCode.SUCCESS));
+        }else{//認証失敗
+            oout.writeInt(ResponseCode.SUCCESS);
+            oout.writeObject("You are not authenticated. Please regist or check your password");
+        }
+        oout.flush();
+    }
+
+    private void createNewUserOperation() throws IOException, ClassNotFoundException {
+        String id = (String)oin.readObject();
+        String name = (String)oin.readObject();
+        String mail_address = (String)oin.readObject();
+        int age = oin.readInt();
+        String address = (String)oin.readObject();
+        String password = (String)oin.readObject();
+        
+        UserAdmin admin = DBUserAdmin.getInstance();
+        UserProfile profile = new UserProfile(address,id,mail_address,age,name,password);
+        profile.setLastCached(new java.util.Date());
+        profile.setRegistDate(new java.util.Date());
+        profile.setTaste_vector(new HashMap());
+        profile.setPast_read_webs(new Vector());
+        
+        boolean isSuccess = admin.createNewUser(profile);
+        if(isSuccess==true){
+            oout.writeInt(ResponseCode.SUCCESS);
+            oout.writeObject(ResponseCode.getResponceName(ResponseCode.SUCCESS));
+        }else{
+            oout.writeInt(ResponseCode.ERROR);
+            oout.writeObject("Can't register you. You Shoud change ID");
+        }
+        oout.flush();
+    }
+}

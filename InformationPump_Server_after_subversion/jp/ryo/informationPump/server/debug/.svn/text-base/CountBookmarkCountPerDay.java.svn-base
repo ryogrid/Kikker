@@ -1,0 +1,13 @@
+package jp.ryo.informationPump.server.debug;
+
+import jp.ryo.informationPump.server.helper.HatebuHelper;
+
+public class CountBookmarkCountPerDay {
+
+    public static void main(String[] args) {
+//        HatebuHelper.countBookmarkCountPerDay(6);
+        HatebuHelper.countBookmarkCountPerDay(6);
+//        System.out.println(HatebuHelper.countBookmarkCountPerDay(6) + "bookmarked!!");
+    }
+
+}

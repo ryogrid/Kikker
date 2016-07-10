@@ -1,0 +1,3 @@
+class UserKeyword < ActiveRecord::Base
+  belongs_to :taste_entry
+end

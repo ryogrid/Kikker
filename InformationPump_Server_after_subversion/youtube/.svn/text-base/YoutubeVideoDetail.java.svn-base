@@ -1,0 +1,23 @@
+package youtube;
+
+
+public class YoutubeVideoDetail {
+    public String author;
+    public String title;
+    public double rating_avg;
+    public int rating_count;
+    public String tags;
+    public String description;
+    //<!-- UNIX time, secs since 1/1/70 -->
+    public long update_time;
+    public int view_count;
+    public int upload_time;
+    public long length_seconds;
+    //<!-- UNIX time, secs since 1/1/70 -->
+    public long recording_date;
+    public String recording_location;
+    public String recording_country;
+    public CommentEntry comment_list[];
+    public String channel_list[];
+    public String thumbnail_url;
+}

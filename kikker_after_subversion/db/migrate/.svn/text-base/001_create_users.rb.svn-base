@@ -1,0 +1,18 @@
+class CreateUsers < ActiveRecord::Migration
+  def self.up
+    create_table :users, :options => 'DEFAULT CHARSET=utf8' do |t|
+      t.column :nickname, :string, :null => false
+      t.column :password, :string, :null => false
+      t.column :name,:string,:null => false
+      t.column :mail_address,:string,:null => false
+      t.column :age,:integer,:null => false
+      t.column :regist_at,:datetime,:null => false
+    end
+    add_index :users, :id
+    add_index :users, :nickname
+  end
+
+  def self.down
+    drop_table :users
+  end
+end

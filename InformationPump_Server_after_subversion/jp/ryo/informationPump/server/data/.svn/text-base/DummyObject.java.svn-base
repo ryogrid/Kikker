@@ -1,0 +1,7 @@
+package jp.ryo.informationPump.server.data;
+
+import java.io.Serializable;
+
+//HashMapのvalueとして使う。valueは無いがkeyに対応する要素が存在することを表明するために用意した
+public class DummyObject implements Serializable {
+}

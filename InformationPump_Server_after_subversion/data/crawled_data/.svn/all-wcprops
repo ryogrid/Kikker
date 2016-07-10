@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/repos/!svn/ver/179/trunk/InformationPump_Server/data/crawled_data
+END
+CrawledDataManager.persistent
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/repos/!svn/ver/179/trunk/InformationPump_Server/data/crawled_data/CrawledDataManager.persistent
+END

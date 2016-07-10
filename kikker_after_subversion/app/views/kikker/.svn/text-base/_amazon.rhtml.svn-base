@@ -1,0 +1,4 @@
+<script language="JavaScript">
+  var url=document.location.href;
+  document.write('<scr' + 'ipt language="JavaScript" src="http://app.drk7.jp/AmazonSimilarity.cgi?url=' + escape(url) + '&n=3&ie=utf8&oe=utf8&tl=40&cl=100&t=hatenanejp0f0-22&idx=Book&style=heavy&footer=1&force=0"></scr' + 'ipt>');
+</script>

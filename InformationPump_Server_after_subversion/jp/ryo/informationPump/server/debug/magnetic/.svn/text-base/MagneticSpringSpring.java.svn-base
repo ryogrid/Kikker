@@ -1,0 +1,70 @@
+package jp.ryo.informationPump.server.debug.magnetic;
+
+// Copyright (C) 2000 by Toyohisa Nakada. All Rights Reserved.
+import java.util.*;
+
+/**
+ * Magnetic-Sprint Model
+ * @author íÜìcñLãv
+ */
+public class MagneticSpringSpring {
+	/** äwèKå¯â  */
+	static final double effect = 0.32;
+	static final double divLength0 = 1.0;
+	static final double effectCross = 0.3;
+	static final double divLength0Cross = 1.2;
+	static public boolean force(Vector node,Vector edge){
+		for(Enumeration ee=edge.elements();ee.hasMoreElements();){
+			Edge ed = (Edge)ee.nextElement();
+			Node from = ed.getNodeFrom(node);
+			Node to = ed.getNodeTo(node);
+			if(from.getFixed() == false || to.getFixed() == false){
+				CVector vec;
+				try{
+					vec = (CVector)Class.forName("jp.ryo.informationPump.server.debug.magnetic.CVector").newInstance();
+				}catch(Exception e){
+					System.out.println(e);
+					return false;
+				}
+				vec.setValue((double)to.m_x-from.m_x,(double)to.m_y-from.m_y);
+
+				double len = vec.getLength();
+				/*
+				double f;
+				if(ed.getCrossCalc() == true && ed.m_cross != 0){
+					f = effectCross * Math.log(len/ed.getLength0());
+					len /= divLength0Cross;
+				}else{
+					f = effect * Math.log(len/ed.getLength0());
+					len /= divLength0;
+				}
+				double dx = vec.m_x*f/len/2;
+				double dy = vec.m_y*f/len/2;
+				*/
+				/**/
+				double ef;
+				double len0 = ed.getLength0();
+				if(ed.getCrossCalc() == true && ed.m_cross != 0){
+					ef = effectCross;
+					len0 /= divLength0Cross;
+				}else{
+					ef = effect;
+					len0 /= divLength0;
+				}
+				double div = ef*(len-len0);
+				double dx = div*Math.cos(vec.getRad());
+				double dy = div*Math.sin(vec.getRad());
+				/**/
+				if(from.getFixed() == false){
+					from.m_dx += dx;
+					from.m_dy += dy;
+				}
+				if(to.getFixed() == false){
+					to.m_dx -= dx;
+					to.m_dy -= dy;
+				}
+			}
+		}
+		return true;
+	}
+}

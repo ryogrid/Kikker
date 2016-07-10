@@ -1,0 +1,197 @@
+8
+
+dir
+510
+http://ryogrid.myhome.cx/svn/repos/trunk/InformationPump_Server/jp/ryo/informationPump/server
+http://ryogrid.myhome.cx/svn/repos
+
+
+
+2006-10-25T05:55:25.000000Z
+495
+ryo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+78a450e0-2e2b-0410-85a1-c6a81a88bdec
+
+helper
+dir
+
+ViewServer.java
+file
+522
+
+
+
+2007-03-09T20:37:37.176761Z
+57a338915aefc2c8f81d7fde12f1b5e4
+2007-03-09T20:38:16.981123Z
+522
+ryo
+has-props
+
+log
+dir
+
+rpc
+dir
+
+db
+dir
+
+debug
+dir
+
+ServerStarter.java
+file
+517
+
+
+
+2007-03-09T19:19:23.247221Z
+b94c32542a0c7069c26c794760b87c79
+2007-03-09T19:19:37.935080Z
+517
+ryo
+has-props
+
+collab
+dir
+
+crawler
+dir
+
+persistent
+dir
+
+learn
+dir
+
+web_server
+dir
+
+KikkerConfigration.java
+file
+
+
+
+
+2007-03-08T23:27:29.221136Z
+a30fa2dc7a2710e97167a7165f838324
+2006-08-05T17:38:37.000000Z
+320
+ryo
+has-props
+
+CrawlerServer.java
+file
+
+
+
+
+2007-03-08T23:27:29.261193Z
+6d6df487f689d23a782ae048b9ae1645
+2006-09-09T09:34:53.000000Z
+430
+ryo
+has-props
+
+WebMetadataAdmin.java
+file
+
+
+
+
+2007-03-08T23:27:29.301251Z
+e707c66ba03941a6ad7ad961059d9c4e
+2006-04-16T04:40:48.000000Z
+98
+ryo
+has-props
+
+UserAdmin.java
+file
+
+
+
+
+2007-03-08T23:27:29.331294Z
+29feeb3e86d2e0927167cac94aeb962d
+2006-04-16T04:40:48.000000Z
+98
+ryo
+has-props
+
+FileWebMetadataAdmin.java
+file
+
+
+
+
+2007-03-08T23:27:29.371352Z
+8b5678183ef3e2cce8787ed8bc9ce749
+2006-04-16T04:40:48.000000Z
+98
+ryo
+has-props
+
+FileUserAdmin.java
+file
+
+
+
+
+2007-03-08T23:27:29.421424Z
+1b9d1d815dca547dd0f2caf1ff73c7a2
+2006-04-16T04:40:48.000000Z
+98
+ryo
+has-props
+
+exchange_server
+dir
+
+data
+dir
+
+util
+dir
+
+DBWebMetadataAdmin.java
+file
+
+
+
+
+2007-03-08T23:27:29.461481Z
+083ae5a169519db595c40e8fa870746d
+2006-04-16T04:40:48.000000Z
+98
+ryo
+has-props
+
+DBUserAdmin.java
+file
+
+
+
+
+2007-03-08T23:27:29.501539Z
+6d564c0d1edbdd7cc6a19a2a2ac4af97
+2006-08-02T04:24:39.000000Z
+313
+ryo
+has-props
+

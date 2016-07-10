@@ -1,0 +1,54 @@
+8
+
+dir
+526
+http://ryogrid.myhome.cx/svn/repos/trunk/kikker3/script/process
+http://ryogrid.myhome.cx/svn/repos
+
+
+
+2006-08-15T07:58:55.000000Z
+341
+ryo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+78a450e0-2e2b-0410-85a1-c6a81a88bdec
+
+spawner
+file
+
+
+
+
+2007-03-08T21:05:18.534611Z
+e7e52ded28489a821b5eb156f92ca0f5
+2006-08-15T07:58:55.000000Z
+341
+ryo
+has-props
+
+reaper
+file
+
+
+
+
+2007-03-08T21:05:18.624740Z
+77608fa9e09e9f24410e7374c67956b7
+2006-08-15T07:58:55.000000Z
+341
+ryo
+has-props
+

@@ -1,0 +1,85 @@
+package jp.ryo.informationPump.server.debug.magnetic;
+
+// Copyright (C) 2000 by Toyohisa Nakada. All Rights Reserved.
+import java.util.*;
+
+/**
+ * Repulsion(”½”­ì—p)‚Ì—Í‚ğÀŒ»‚·‚éƒNƒ‰ƒX
+ * @author ’†“c–L‹v
+ */
+public class MagneticSpringRepulsion {
+	/** ŠwKŒø‰Ê */
+	static final double effect = 5000;
+	static final double effectCross = 1500;
+
+	/** test */
+	static final double effectT = 50;
+	static final double effectCrossT = 30;
+
+	/** ‘¼‚ÌNode‚©‚ç‰e‹¿‚ğó‚¯‚é”ÍˆÍ */
+	static final int circle = 80;
+
+	static public boolean force(Vector node,Vector edge){
+		for(int cnt1=0;cnt1<(node.size()-1);cnt1++){
+			Node n1 = (Node)node.get(cnt1);
+			if(n1.getFixed() == false){
+				for(int cnt2=cnt1+1;cnt2<node.size();cnt2++){
+					Node n2 = (Node)node.get(cnt2);
+					if(n1.isLinkedNode(n2)==false && n1.isNearNode(n2,circle)==true){
+						CVector vec;
+						try{
+							vec = (CVector)Class.forName("jp.ryo.informationPump.server.debug.magnetic.CVector").newInstance();
+						}catch(Exception e){
+							System.out.println(e);
+							return false;
+						}
+						vec.setValue((double)n2.m_x-n1.m_x,(double)n2.m_y-n1.m_y);
+						double len = vec.getLength();
+
+						boolean c1 = false;
+						boolean c2 = false;
+						for(Enumeration ee=edge.elements();ee.hasMoreElements();){
+							Edge ed = (Edge)ee.nextElement();
+							if(ed.getCrossCalc() == true && ed.m_cross != 0){
+								if(ed.m_from == cnt1 || ed.m_to == cnt1)
+									c1 = true;
+								if(ed.m_from == cnt2 || ed.m_to == cnt2)
+									c2 = true;
+							}
+							if(c1 == true && c2 == true)
+								break;
+						}
+						/*
+						double ef1 = (c1==true ? effectCrossT :effectT);
+						double ef2 = (c2==true ? effectCrossT :effectT);
+						n1.m_dx -= ef1*Math.cos(vec.getRad())/len;
+						n1.m_dy -= ef1*Math.sin(vec.getRad())/len;
+						if(n2.getFixed() == false){
+							n2.m_dx += ef2*Math.cos(vec.getRad())/len;
+							n2.m_dy += ef2*Math.sin(vec.getRad())/len;
+						}*/
+						/**/
+						double f1,f2;
+						if(c1 == true)
+							f1 = effectCross/Math.pow(len,2);
+						else
+							f1 = effect/Math.pow(len,2);
+						if(c2 == true)
+							f2 = effectCross/Math.pow(len,2);
+						else
+							f2 = effect/Math.pow(len,2);
+
+						n1.m_dx -= vec.m_x*f1/len/2;
+						n1.m_dy -= vec.m_y*f1/len/2;
+						if(n2.getFixed() == false){
+							n2.m_dx += vec.m_x*f2/len/2;
+							n2.m_dy += vec.m_y*f2/len/2;
+						}
+						/**/
+					}
+				}
+			}
+		}
+		return true;
+	}
+}

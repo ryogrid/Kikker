@@ -1,0 +1,29 @@
+package jp.ryo.informationPump.server.exchange_server;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class ExchangeServer extends Thread {
+
+    public void run() {
+        int port = 1200;
+        
+        try {
+            ServerSocket server_socket;
+            server_socket = new ServerSocket(port);
+            System.out.println("Information Pump Server running on port:" + server_socket.getLocalPort());
+            
+            while(true){
+                    Socket socket = server_socket.accept();
+                    System.out.println("New Exchange connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
+                    RequestHandler request = new RequestHandler(socket);
+                    Thread thread = new Thread(request);
+                    thread.start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+}

@@ -1,0 +1,82 @@
+/*
+ * 作成日: 2006/02/07
+ *
+ * この生成されたコメントの挿入されるテンプレートを変更するため
+ * ウィンドウ > 設定 > Java > コード生成 > コードとコメント
+ */
+package jp.ryo.informationPump.server.data;
+
+import java.io.Serializable;
+import java.util.HashMap;
+
+public class WebData implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
+    private String address;
+    private String title;
+    private String doc_type;
+    private HashMap keyword_vector;
+    private int read_count = 1;//何人のユーザーに閲覧されたか
+    
+    public int getReadCount(){
+        return read_count;
+    }
+    
+    public void setReadCount(int count){
+        this.read_count = count; 
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String name) {
+        this.address = name;
+    }
+    
+    public HashMap getKeyword_vector() {
+        return keyword_vector;
+    }
+    
+    public void setKeyword_vector(HashMap taste_vector) {
+        this.keyword_vector = taste_vector;
+    }
+    
+    public WebData(String name, HashMap taste_vector) {
+        super();
+        
+        String splited[] = name.split("#:#");
+        
+        this.doc_type = splited[0];
+        this.address = splited[1];
+        if(splited[2].equals("null")){
+            this.title = null;
+        }else{
+            this.title = splited[2];    
+        }
+        this.keyword_vector = taste_vector;
+    }
+
+    public String toString() {
+        if(address!=null){
+            return address;
+        }else{
+            return super.toString();    
+        }
+    }
+
+    public int getRead_count() {
+        return read_count;
+    }
+
+    public void setRead_count(int read_count) {
+        this.read_count = read_count;
+    }
+
+    public String getDoc_type() {
+        return doc_type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+}

@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/repos/!svn/ver/494/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler
+END
+UpdateBookmarkForCollabTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/repos/!svn/ver/433/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/UpdateBookmarkForCollabTask.java
+END
+YoutubeCrawlerTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/repos/!svn/ver/329/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/YoutubeCrawlerTask.java
+END
+HatebuCrawlerThread.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/repos/!svn/ver/464/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/HatebuCrawlerThread.java
+END
+CeekJpNewsCrawlerTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/repos/!svn/ver/306/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/CeekJpNewsCrawlerTask.java
+END
+ExpireCacheTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/repos/!svn/ver/483/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/ExpireCacheTask.java
+END
+UpdateBookmarkForCollabThread.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/repos/!svn/ver/468/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/UpdateBookmarkForCollabThread.java
+END
+CrawledDataManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/repos/!svn/ver/252/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/CrawledDataManager.java
+END
+FileCrawledDataManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/repos/!svn/ver/252/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/FileCrawledDataManager.java
+END
+RemoveOldEntriesTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/repos/!svn/ver/365/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/RemoveOldEntriesTask.java
+END
+ExpireCacheTaskThread.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/repos/!svn/ver/521/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/ExpireCacheTaskThread.java
+END
+HatebuCrawlerTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/repos/!svn/ver/430/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/HatebuCrawlerTask.java
+END
+DBCrawledDataManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/repos/!svn/ver/536/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/DBCrawledDataManager.java
+END
+ExitTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/repos/!svn/ver/494/trunk/InformationPump_Server/jp/ryo/informationPump/server/crawler/ExitTask.java
+END

@@ -1,0 +1,182 @@
+package jp.ryo.informationPump.server.debug.magnetic;
+
+// Copyright (C) 2000 by Toyohisa Nakada. All Rights Reserved.
+/*
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+import java.net.*;
+import java.awt.image.*;
+import javax.swing.*;
+import java.util.*;
+*/
+
+/**
+ * ベクトルを扱うライブラリクラス<br>
+ * ボイドアプレットに依存していないので再利用が可能。<br>
+ * java.util.Vectorとは全く無関係。
+ * @author 中田豊久
+ */
+class CVector {
+	/** メンバ変数 */
+	double m_x;
+	/** メンバ変数 */
+	double m_y;
+	/** デフォルトコンストラクタ
+	 */
+	CVector(){
+	}
+	/** 値をセットする。デフォルトコンストラクタを使用した場合、必ずこ
+	 * れをコールする。 */
+	void setValue(double x,double y){
+		m_x = x;
+		m_y = y;
+	}
+	/** コンストラクタ
+	 * @param x x軸値
+	 * @param y y軸値
+	 */
+	CVector(double x,double y){
+		m_x = x;
+		m_y = y;
+	}
+	/** コンストラクタ
+	 */
+	CVector(CVector vec){
+		m_x = vec.m_x;
+		m_y = vec.m_y;
+	}
+	/** 初期化関数。初期化は０クリア */
+	void init(){
+		m_x = m_y = 0;
+	}
+	/** 初期化されているベクトルの場合 trueを返す */
+	boolean isInit(){
+		return (m_x==0 && m_y==0)?true:false;
+	}
+	/** ベクトルのプラス <BR>
+	 *  JAVAでの演算子のオーバーロード方法が分かれば、そちらに変更する。
+	 */
+	CVector plus(CVector cmp){
+		m_x += cmp.m_x;
+		m_y += cmp.m_y;
+		return this;
+	}
+	/** ベクトルの始点を中心に回転したベクトルを求める */
+	CVector rotate(double rad){
+		/* 回転行列は
+		   | c -s ||x|
+		   | s  c ||y|
+		*/
+		double c = Math.cos(rad);
+		double s = Math.sin(rad);
+		return new CVector(m_x*c-m_y*s,m_x*s+m_y*c);
+	}
+	/** 長さを返す。
+	 */
+	double getLength(){
+		return Math.sqrt(Math.pow(m_x,2)+Math.pow(m_y,2));
+	}
+	/** 現在のx,yの値を使用して、角度(radians)を返す
+	 * @return 角度(radians)
+	 */
+	double getRad(){
+		// 返す角度の範囲は 0 <= rad < 2*Math.PI
+		if(m_y == 0){
+			if(m_x >= 0)
+				return 0;
+			else
+				return Math.PI;
+		}else if(m_x == 0){
+			if(m_y >= 0)
+				return Math.PI/2;
+			else
+				return 3*Math.PI/2;
+		}
+		double rad = Math.acos(m_x/Math.sqrt(Math.pow(m_x,2)+Math.pow(m_y,2)));
+		if(m_y < 0)
+			rad = (2*Math.PI)-rad;
+		return rad;
+	}
+	/** 引数として与えられたベクトルに対して自分のベクトルをプラス方向
+	 * に回転すれば角度が近づくか、マイナス方向に回転すれば近づくかを返
+	 * す。<br>
+	 * 例えば、引数ベクトルが(1,1) 自分のベクトルが(1,-1)の場合、自分の
+	 * ベクトルをマイナス方向に回転させると、引数ベクトルに近づくのでこ
+	 * の関数はマイナス方向を示す -1 を返す。
+	 * @param vec 対象となるベクトル
+	 * @return 1の場合はプラス方向、2の場合はマイナス方向。
+	 */
+	int towordPlusMinus(CVector vec){
+		if((m_x == 0 && m_y == 0) ||
+			(vec.m_x == 0 && vec.m_y == 0)){
+			return 0;
+		}
+		int nDiff;
+		switch(nDiff = diffWorld(vec)){
+		case 0:
+		case 2:
+			double x = ((double)vec.m_y/vec.m_x)-((double)m_y/m_x);
+			if(x == 0)
+				return 0;
+			else{
+				if(nDiff==0)
+					return x>0?1:-1;
+				else
+					return x>0?-1:1;
+			}
+		case -1:
+			return -1;
+		case 1:
+			return 1;
+		}
+		return 0;	// bug
+	}
+	/** {@link #getWorld()}により求められる象現の差分を求める。同じ象現
+	 * の場合、差分は０。隣の象現に互いがある場合、１。対角線上に互いの
+	 * 象現が存在する場合、２となる。
+	 * @param vec 比較対象のベクトル
+	 * @return 差分値(0-2)
+	 */
+	int diffWorld(CVector vec){
+		int w = getWorld();
+		int w2 = vec.getWorld();
+		if(w == w2)
+			return 0;
+		else if(Math.abs(w-w2)==2)
+			return 2;
+		else if(Math.max(w,w2)-Math.min(w,w2)==1)
+			return 1;
+		else
+			return -1;
+	}
+	/**
+	 * m_x,m_yを以下の4つの象現に分ける<br>
+	 * <pre>
+	 * 1.  ○      2.   ●    3.  |      4.  |
+	 *     | |        | |         |          |
+	 *     +-●      ○-+-     ●-+-        -+-○
+	 *     |            |       | |          | |
+	 *                            ○         ●
+	 * </pre>
+	 * @return 象現の番号(1-4)
+	 */
+	int getWorld(){
+		if(m_x > 0 && m_y >= 0){
+			return 1;
+		}else if(m_x <= 0 && m_y > 0){
+			return 2;
+		}else if(m_x < 0 && m_y <= 0){
+			return 3;
+		}else if(m_x >= 0 && m_y < 0){
+			return 4;
+		}
+		return 0;// bug
+	}
+	static public double radToDeg(double rad){
+		return rad*180/Math.PI;
+	}
+	static public double degToRad(double deg){
+		return deg*Math.PI/180;
+	}
+}

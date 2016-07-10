@@ -1,0 +1,54 @@
+8
+
+dir
+526
+http://ryogrid.myhome.cx/svn/repos/trunk/kikker3/app/controllers
+http://ryogrid.myhome.cx/svn/repos
+
+
+
+2006-10-22T07:50:22.000000Z
+492
+ryo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+78a450e0-2e2b-0410-85a1-c6a81a88bdec
+
+application.rb
+file
+
+
+
+
+2007-03-08T21:04:59.397092Z
+6a709bbdb544d1f10710d23419d3520b
+2006-09-19T18:09:24.000000Z
+452
+ryo
+has-props
+
+kikker_controller.rb
+file
+529
+
+
+
+2007-03-11T16:30:11.843568Z
+c318d3c954dffac5018d07b7de752f94
+2007-03-11T16:31:39.944986Z
+529
+ryo
+has-props
+

@@ -1,0 +1,12 @@
+<%if @user == nil %>
+    <p>ユーザ名もしくはパスワードが間違っています</p>
+<% else %>
+    <p>ID:<em><%= @user.nickname%></em>のログインに成功しました</p>
+    <br>
+    <font size="4"><b>ログインした後は,自分にお薦めされたリンクや,Topから他のユーザーへのお薦めリンク,キーワードに関するページの一覧のリンクなどをクリックすることでKikkerがあなたの好みを学習します。いろいろ見てみて下さい。学習が終わったらページ上部にあるログアウトボタンでログアウトして下さい</b></font><br><br>
+    <font size="4"><%=link_to @user.nickname + "のページはコチラ",{:action => "hatebu_html",:user_id=> @user.nickname}%></font>
+    <br>
+    <br>
+    	<%=render :partial => 'adsence'%>
+    	<%=render :partial => 'shinobi'%>
+<% end %>

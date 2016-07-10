@@ -1,0 +1,41 @@
+8
+
+dir
+510
+http://ryogrid.myhome.cx/svn/repos/trunk/InformationPump_Server/jp/ryo/informationPump/server/exchange_server/cul
+http://ryogrid.myhome.cx/svn/repos
+
+
+
+2006-04-23T11:16:34.000000Z
+165
+ryo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+78a450e0-2e2b-0410-85a1-c6a81a88bdec
+
+SimilarityCalculater.java
+file
+524
+
+
+
+2007-03-10T19:36:32.112907Z
+a996b0c0dbea22b82ab6a7b4d9b9886a
+2007-03-10T19:37:06.338530Z
+524
+ryo
+has-props
+

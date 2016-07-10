@@ -1,0 +1,6 @@
+div#notice {
+  margin: 10px;
+  padding: 10px;
+  background-color: #ededff;
+  border: solid #5656bb 1px;
+}

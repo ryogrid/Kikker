@@ -1,0 +1,15 @@
+package jp.ryo.informationPump.server.crawler;
+
+import java.util.TimerTask;
+
+import jp.ryo.informationPump.server.collab.CollaborativeInformatoinManager;
+
+public class UpdateBookmarkForCollabTask extends TimerTask {
+    public static final int CRAWL_PERIOD_SECONDS = 7200;
+    
+    public void run() {
+        UpdateBookmarkForCollabThread thread = new UpdateBookmarkForCollabThread("UpdateBookmarkForCollabThread");
+        thread.start();
+    }
+
+}

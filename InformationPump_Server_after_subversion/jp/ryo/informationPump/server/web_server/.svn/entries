@@ -1,0 +1,70 @@
+8
+
+dir
+510
+http://ryogrid.myhome.cx/svn/repos/trunk/InformationPump_Server/jp/ryo/informationPump/server/web_server
+http://ryogrid.myhome.cx/svn/repos
+
+
+
+2006-08-17T11:39:18.000000Z
+350
+ryo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+78a450e0-2e2b-0410-85a1-c6a81a88bdec
+
+CookieManager.java
+file
+
+
+
+
+2007-03-08T23:27:25.295491Z
+d6ff0836dcbd6988934de85c42c93ab4
+2006-07-26T07:06:54.000000Z
+283
+ryo
+has-props
+
+WebServer.java
+file
+
+
+
+
+2007-03-08T23:27:25.325534Z
+df976e3165fe1745de5a790ac5fd1ab6
+2006-08-17T11:39:18.000000Z
+350
+ryo
+has-props
+
+rss
+dir
+
+HttpRequestProcessor.java
+file
+
+
+
+
+2007-03-08T23:27:25.375606Z
+55f56812d1f40fc9bb052821e5fb08b4
+2006-08-17T04:57:30.000000Z
+347
+ryo
+has-props
+

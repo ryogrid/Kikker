@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+ 		<head>
+		   <META http-equiv="Content-Type" content="text/html; charset=shift_jis">
+		   <%if @title%>
+		     <title><%= @title %></title>
+		   <%else%>
+  		   <title>Kikker-学習するユーザーカスタマイズドなニュースサイト-</title>
+		   <%end%>
+		   <%= stylesheet_link_tag 'kikker_extra' %>
+		   <%= stylesheet_link_tag 'kikker_style' %>
+<!--		   <LINK href="http://www.coins.tsukuba.ac.jp/~i041184/distribute/kikker_style.css" type=text/css rel=stylesheet>  -->
+   <%if @rss_url%>
+    <LINK rel="alternate" type="application/rss+xml" title="<%= @rss_title %>" href="<%=@rss_url%>">
+   <%end%>
+   <%if @redirect_url%>
+    <META HTTP-EQUIV="Refresh" CONTENT="2; URL=<%= @redirect_url %>">
+   <%end%>
+   <%if @fast_redirect_url%>
+    <META HTTP-EQUIV="Refresh" CONTENT="0; URL=<%= @fast_redirect_url %>">
+   <%end%>
+ 		</head>
+ 		<body>
+ 		    <%= @content_for_layout %>
+ 		</body>
+</html>
